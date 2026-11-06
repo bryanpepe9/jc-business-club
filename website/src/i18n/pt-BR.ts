@@ -193,6 +193,13 @@ export const ptBR: SiteContent = {
         url: 'https://agfeed.com.br/financas/nascida-no-mundo-da-moda-jc-capital-vai-ate-a-arabia-buscar-investidores-para-o-agro',
         date: '2024-02-05',
       },
+      {
+        outlet: 'Revista Capital Econômico',
+        headline:
+          'Parceria entre Governo de São Paulo e JC Capital busca alavancar investimentos para o agronegócio',
+        url: 'https://revistacapitaleconomico.com.br/parceria-entre-governo-de-sao-paulo-e-jc-capital-busca-alavancar-investimentos-para-o-agronegocio/',
+        date: '2023-12-04',
+      },
       { outlet: 'Gazeta da Semana', headline: 'Elementos para uma rodada de negócios de sucesso' },
       {
         outlet: 'Turismo em Foco',

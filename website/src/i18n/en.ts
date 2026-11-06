@@ -192,6 +192,14 @@ export const en: SiteContent = {
         lang: 'pt-BR',
       },
       {
+        outlet: 'Revista Capital Econômico',
+        headline:
+          'Parceria entre Governo de São Paulo e JC Capital busca alavancar investimentos para o agronegócio',
+        url: 'https://revistacapitaleconomico.com.br/parceria-entre-governo-de-sao-paulo-e-jc-capital-busca-alavancar-investimentos-para-o-agronegocio/',
+        date: '2023-12-04',
+        lang: 'pt-BR',
+      },
+      {
         outlet: 'Gazeta da Semana',
         headline: 'Elementos para uma rodada de negócios de sucesso',
         lang: 'pt-BR',
