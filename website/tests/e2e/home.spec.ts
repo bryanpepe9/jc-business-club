@@ -30,6 +30,29 @@ test.describe('home page', () => {
     }
   });
 
+  test('nav jumps land each section just below the header, without empty space', async ({ page }) => {
+    await page.goto('/');
+    const ids = await page
+      .locator('header nav a[href*="#"]')
+      .evaluateAll((links) => links.map((link) => (link as HTMLAnchorElement).hash.slice(1)));
+    expect(ids.length).toBeGreaterThan(3);
+    for (const id of new Set(ids)) {
+      const gap = await page.evaluate(async (target) => {
+        document.documentElement.style.scrollBehavior = 'auto';
+        document.getElementById(target)!.scrollIntoView();
+        await new Promise((r) => requestAnimationFrame(r));
+        const section = document.getElementById(target)!;
+        const content = section.firstElementChild as HTMLElement;
+        const header = document.querySelector('header')!.getBoundingClientRect().bottom;
+        return (
+          content.getBoundingClientRect().top + parseFloat(getComputedStyle(content).paddingTop) - header
+        );
+      }, id);
+      expect(gap, `#${id}`).toBeGreaterThanOrEqual(0);
+      expect(gap, `#${id}`).toBeLessThan(80);
+    }
+  });
+
   test('press: every article opens in a new tab', async ({ page }) => {
     await page.goto('/');
     const press = page.locator('.press');

@@ -28,5 +28,8 @@ const { intro, id, theme = 'paper', labelledby, class: className } = Astro.props
     background: var(--bg);
     color: var(--fg);
     padding-block: var(--section-pad);
+    /* Nav jumps skip most of the top padding, so the section's index line
+       lands a short gap below the sticky header instead of after empty space. */
+    scroll-margin-top: calc(var(--space-6) - var(--section-pad));
   }
 </style>
