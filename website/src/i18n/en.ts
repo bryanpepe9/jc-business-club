@@ -170,6 +170,21 @@ export const en: SiteContent = {
         lang: 'pt-BR',
       },
       {
+        outlet: 'Gazeta da Semana',
+        headline:
+          'Crescimento nos mercados imobiliário e turístico no Brasil abrem oportunidades para investimentos',
+        url: 'https://gazetadasemana.com.br/noticia/192384/crescimento-nos-mercados-imobiliario-e-turistico-no-brasil-abrem-oportunidades-para-investimentos',
+        date: '2024-09-24',
+        lang: 'pt-BR',
+      },
+      {
+        outlet: 'Brasil Inovador',
+        headline: 'Road Shows: modelo atrai atenção de investidores no Brasil',
+        url: 'https://brasilinovador.com.br/road-shows-modelo-esta-sendo-adaptado-para-o-mercado-brasileiro-e-atrai-atencao-de-investidores/',
+        date: '2024-06-08',
+        lang: 'pt-BR',
+      },
+      {
         outlet: 'AgFeed',
         headline: 'Nascida no mundo da moda, JC Capital vai até a Arábia buscar investidores para o agro',
         url: 'https://agfeed.com.br/financas/nascida-no-mundo-da-moda-jc-capital-vai-ate-a-arabia-buscar-investidores-para-o-agro',
