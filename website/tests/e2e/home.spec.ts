@@ -30,7 +30,7 @@ test.describe('home page', () => {
     }
   });
 
-  test('press: linked articles open in a new tab, pending ones are plain text', async ({ page }) => {
+  test('press: every article opens in a new tab', async ({ page }) => {
     await page.goto('/');
     const press = page.locator('.press');
     await expect(press.getByRole('heading', { name: 'Reconhecimento na mídia' })).toBeVisible();
@@ -40,7 +40,7 @@ test.describe('home page', () => {
       await expect(link).toHaveAttribute('target', '_blank');
       await expect(link).toHaveAttribute('href', /^https:\/\//);
     }
-    await expect(press.locator('div.press__item')).toHaveCount(4);
+    await expect(press.locator('div.press__item')).toHaveCount(0);
   });
 
   test('skip link moves focus to the main content', async ({ page, isMobile }) => {

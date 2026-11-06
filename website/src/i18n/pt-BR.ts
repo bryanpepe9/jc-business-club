@@ -200,16 +200,6 @@ export const ptBR: SiteContent = {
         url: 'https://revistacapitaleconomico.com.br/parceria-entre-governo-de-sao-paulo-e-jc-capital-busca-alavancar-investimentos-para-o-agronegocio/',
         date: '2023-12-04',
       },
-      { outlet: 'Gazeta da Semana', headline: 'Elementos para uma rodada de negócios de sucesso' },
-      {
-        outlet: 'Turismo em Foco',
-        headline: 'Mercado imobiliário e turístico: oportunidades para investimentos',
-      },
-      {
-        outlet: 'Agromais / UOL',
-        headline: 'Projetos promissores do agronegócio conectados a investidores',
-      },
-      { outlet: 'MT Agora', headline: 'Grandes players do agronegócio e investidores em São Paulo' },
     ],
   },
 

@@ -158,8 +158,7 @@ export const en: SiteContent = {
     title: 'In the media',
     lead: 'Our work in business rounds and in connecting projects with investors has been featured in several outlets.',
     readLabel: 'Read the article (in Portuguese)',
-    // Headlines stay in Portuguese. Items with a verified `url` render as links;
-    // the deck's mentions show as text until their links are confirmed.
+    // Headlines stay in Portuguese. Every item needs a verified article `url`.
     items: [
       {
         outlet: 'Notícias Agrícolas',
@@ -197,26 +196,6 @@ export const en: SiteContent = {
           'Parceria entre Governo de São Paulo e JC Capital busca alavancar investimentos para o agronegócio',
         url: 'https://revistacapitaleconomico.com.br/parceria-entre-governo-de-sao-paulo-e-jc-capital-busca-alavancar-investimentos-para-o-agronegocio/',
         date: '2023-12-04',
-        lang: 'pt-BR',
-      },
-      {
-        outlet: 'Gazeta da Semana',
-        headline: 'Elementos para uma rodada de negócios de sucesso',
-        lang: 'pt-BR',
-      },
-      {
-        outlet: 'Turismo em Foco',
-        headline: 'Mercado imobiliário e turístico: oportunidades para investimentos',
-        lang: 'pt-BR',
-      },
-      {
-        outlet: 'Agromais / UOL',
-        headline: 'Projetos promissores do agronegócio conectados a investidores',
-        lang: 'pt-BR',
-      },
-      {
-        outlet: 'MT Agora',
-        headline: 'Grandes players do agronegócio e investidores em São Paulo',
         lang: 'pt-BR',
       },
     ],
