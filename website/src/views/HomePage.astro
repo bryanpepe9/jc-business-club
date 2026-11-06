@@ -1,0 +1,33 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Hero from '@/components/sections/Hero.astro';
+import Club from '@/components/sections/Club.astro';
+import Experience from '@/components/sections/Experience.astro';
+import Audience from '@/components/sections/Audience.astro';
+import Benefits from '@/components/sections/Benefits.astro';
+import Track from '@/components/sections/Track.astro';
+import Founder from '@/components/sections/Founder.astro';
+import Membership from '@/components/sections/Membership.astro';
+import Closing from '@/components/sections/Closing.astro';
+import { getContent } from '@/i18n';
+import type { Locale } from '@/config/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const content = getContent(locale);
+---
+
+<BaseLayout locale={locale} page="home">
+  <Hero content={content} />
+  <Club content={content} />
+  <Experience content={content} />
+  <Audience content={content} />
+  <Benefits content={content} />
+  <Track content={content} />
+  <Founder content={content} />
+  <Membership content={content} />
+  <Closing content={content} />
+</BaseLayout>

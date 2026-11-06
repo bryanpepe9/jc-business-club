@@ -1,0 +1,91 @@
+---
+import Arrow from './Arrow.astro';
+
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'outline';
+  size?: 'default' | 'small';
+  type?: 'button' | 'submit';
+  arrow?: boolean;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  href,
+  variant = 'primary',
+  size = 'default',
+  type = 'button',
+  arrow = false,
+  class: className,
+  ...rest
+} = Astro.props;
+
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  class:list={['btn', `btn--${variant}`, `btn--${size}`, className]}
+  href={href}
+  type={href ? undefined : type}
+  {...rest}
+>
+  <span>
+    <slot />
+  </span>
+  {arrow && <Arrow />}
+</Tag>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    min-height: var(--control-h);
+    padding-inline: 1.75rem;
+    border: var(--hairline) solid transparent;
+    border-radius: var(--radius);
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out);
+  }
+
+  .btn--small {
+    min-height: 2.5rem;
+    padding-inline: 1.125rem;
+    font-size: 0.875rem;
+  }
+
+  .btn--primary {
+    background: var(--btn-bg);
+    color: var(--btn-fg);
+  }
+
+  .btn--primary:hover {
+    background: var(--btn-bg-hover);
+  }
+
+  .btn--outline {
+    border-color: currentColor;
+    color: var(--fg);
+  }
+
+  .btn--outline:hover {
+    background: var(--fg);
+    border-color: var(--fg);
+    color: var(--bg);
+  }
+
+  .btn:hover :global(.arrow) {
+    transform: translateX(3px);
+  }
+</style>

@@ -1,0 +1,159 @@
+/*
+ * Form styles — imported by the application form only, so they ship on the
+ * application page alone.
+ */
+/* Each field spans three shared row tracks (head, control, foot) so controls
+   line up across a row even when only one field has a hint. */
+.field {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+  row-gap: var(--space-2);
+}
+
+@supports not (grid-template-rows: subgrid) {
+  .field {
+    grid-row: auto;
+    grid-template-rows: none;
+    align-content: start;
+  }
+}
+
+.field__head {
+  display: grid;
+  align-content: start;
+  gap: 0.25rem;
+}
+
+.field__foot {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+}
+
+.js .field[data-conditional]:not([data-active]) {
+  display: none;
+}
+
+.field__label {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.field__optional {
+  font-weight: 400;
+  color: var(--fg-muted);
+}
+
+.field__hint {
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--fg-muted);
+}
+
+.field__control {
+  width: 100%;
+  min-height: var(--control-h);
+  padding: 0.75rem 1rem;
+  border: var(--hairline) solid var(--field-border);
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--ink);
+  /* ≥16px prevents iOS from zooming into the field. */
+  font-size: 1.0625rem;
+  line-height: 1.4;
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.field__control:hover {
+  border-color: var(--stone);
+}
+
+.field__control:focus-visible {
+  outline: none;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 1px var(--ink);
+}
+
+.field__control--textarea {
+  min-height: 9rem;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.field__control--select {
+  appearance: none;
+  padding-right: 2.75rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5 6 6.5l5-5' stroke='%23121212' stroke-width='1.25'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+}
+
+.field[data-invalid] .field__control {
+  border-color: var(--error);
+}
+
+.field[data-invalid] .field__control:focus-visible {
+  box-shadow: 0 0 0 1px var(--error);
+}
+
+.field__counter {
+  justify-self: end;
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--fg-muted);
+}
+
+.field__error {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--error);
+}
+
+.field__error:empty {
+  display: none;
+}
+
+@media (min-width: 48rem) {
+  .field--half {
+    grid-column: span 1;
+  }
+}
+
+/* Consent checkbox */
+.consent__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+}
+
+.consent__row input {
+  flex: none;
+  width: 1.375rem;
+  height: 1.375rem;
+  margin-top: 0.05rem;
+  accent-color: var(--ink);
+  cursor: pointer;
+}
+
+.consent__row label {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.consent__notice {
+  padding-left: calc(1.375rem + 0.875rem);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--fg-muted);
+}
+
+.consent .field__error {
+  padding-left: calc(1.375rem + 0.875rem);
+}

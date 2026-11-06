@@ -1,0 +1,400 @@
+---
+import { actions } from 'astro:actions';
+import '@/styles/form.css';
+import type { SiteContent } from '@/i18n/types';
+import type { ApplyFailure } from '@/actions';
+import {
+  MAX_LENGTH,
+  SEGMENTS,
+  SPAM_FIELDS,
+  type FieldErrors,
+  type FieldName,
+  type FormValues,
+} from '@/lib/application/fields';
+import { buildFieldMessages } from '@/lib/application/messages';
+import type { DeliveryMode } from '@/lib/application/delivery';
+import Field from './Field.astro';
+import SuccessPanel from './SuccessPanel.astro';
+import Button from '@/components/ui/Button.astro';
+
+interface Props {
+  content: SiteContent;
+  values?: FormValues;
+  errors?: FieldErrors;
+  failure?: ApplyFailure;
+  success?: { name: string; mode: DeliveryMode };
+  turnstileSiteKey?: string;
+  startedAt: number;
+  submissionId: string;
+  source: Record<string, string>;
+}
+
+const {
+  content,
+  values = {},
+  errors = {},
+  failure,
+  success,
+  turnstileSiteKey,
+  startedAt,
+  submissionId,
+  source,
+} = Astro.props;
+
+const copy = content.application;
+const messages = buildFieldMessages(copy);
+const errorFor = (name: FieldName) => (errors[name] ? messages[name][errors[name]!] : undefined);
+const errorEntries = (Object.keys(errors) as FieldName[]).filter((name) => errors[name]);
+
+const common = { errorPrefix: copy.errorPrefix };
+
+// Strings the client script needs; '<' is escaped so the JSON can sit in a script tag.
+const clientCopy = JSON.stringify({
+  fields: messages,
+  assumeBrazil: copy.assumeBrazilianPhone,
+  errorPrefix: copy.errorPrefix,
+  submit: copy.submit,
+  submitting: copy.submitting,
+  verificationPending: copy.verificationPending,
+  failures: copy.failures,
+}).replace(/</g, '\\u003c');
+---
+
+<div class="application" data-application>
+  <script type="application/json" data-copy set:html={clientCopy} />
+  {success ? (
+    <SuccessPanel copy={copy.success} name={success.name} mode={success.mode} />
+  ) : (
+    <form class="application__form" method="POST" action={actions.apply} data-form>
+      <p class="application__required">{copy.requiredNote}</p>
+
+      <div class="application__summary" tabindex="-1" data-summary hidden={errorEntries.length === 0}>
+        <p class="application__summary-title">{copy.errorSummary}</p>
+        <ul>
+          {errorEntries.map((name) => (
+            <li>
+              <a href={`#field-${name}`}>{errorFor(name)}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="application__alert" role="alert" tabindex="-1" data-alert hidden={!failure}>
+        {failure && copy.failures[failure]}
+      </div>
+
+      <fieldset class="application__fieldset">
+        <legend class="t-h3">{copy.fieldsets.about}</legend>
+        <div class="application__grid">
+          <Field
+            name="name"
+            copy={copy.fields.name}
+            autocomplete="name"
+            maxlength={MAX_LENGTH.name}
+            value={values.name}
+            error={errorFor('name')}
+            {...common}
+          />
+          <Field
+            name="email"
+            copy={copy.fields.email}
+            type="email"
+            autocomplete="email"
+            maxlength={MAX_LENGTH.email}
+            value={values.email}
+            error={errorFor('email')}
+            half
+            {...common}
+          />
+          <Field
+            name="phone"
+            copy={copy.fields.phone}
+            type="tel"
+            autocomplete="tel"
+            inputmode="tel"
+            maxlength={MAX_LENGTH.phone}
+            value={values.phone}
+            error={errorFor('phone')}
+            half
+            {...common}
+          />
+          <Field
+            name="city"
+            copy={copy.fields.city}
+            autocomplete="address-level2"
+            maxlength={MAX_LENGTH.city}
+            value={values.city}
+            error={errorFor('city')}
+            half
+            {...common}
+          />
+          <Field
+            name="linkedin"
+            copy={copy.fields.linkedin}
+            type="url"
+            inputmode="url"
+            maxlength={MAX_LENGTH.linkedin}
+            value={values.linkedin}
+            error={errorFor('linkedin')}
+            optional
+            optionalLabel={copy.optionalLabel}
+            half
+            {...common}
+          />
+        </div>
+      </fieldset>
+
+      <fieldset class="application__fieldset">
+        <legend class="t-h3">{copy.fieldsets.company}</legend>
+        <div class="application__grid">
+          <Field
+            name="company"
+            copy={copy.fields.company}
+            autocomplete="organization"
+            maxlength={MAX_LENGTH.company}
+            value={values.company}
+            error={errorFor('company')}
+            half
+            {...common}
+          />
+          <Field
+            name="role"
+            copy={copy.fields.role}
+            autocomplete="organization-title"
+            maxlength={MAX_LENGTH.role}
+            value={values.role}
+            error={errorFor('role')}
+            half
+            {...common}
+          />
+          <Field
+            name="segment"
+            as="select"
+            copy={copy.fields.segment}
+            placeholderOption={copy.segmentPlaceholder}
+            options={SEGMENTS.map((value) => ({ value, label: copy.segmentOptions[value] }))}
+            value={values.segment}
+            error={errorFor('segment')}
+            half
+            {...common}
+          />
+          <Field
+            name="segmentOther"
+            copy={copy.fields.segmentOther}
+            maxlength={MAX_LENGTH.segmentOther}
+            value={values.segmentOther}
+            error={errorFor('segmentOther')}
+            conditional={{ active: values.segment === 'outro' }}
+            half
+            {...common}
+          />
+          <Field
+            name="about"
+            as="textarea"
+            copy={copy.fields.about}
+            maxlength={MAX_LENGTH.about}
+            value={values.about}
+            error={errorFor('about')}
+            counter={copy.counter}
+            {...common}
+          />
+        </div>
+      </fieldset>
+
+      <fieldset class="application__fieldset">
+        <legend class="t-h3">{copy.fieldsets.participation}</legend>
+        <div class="application__grid">
+          <Field
+            name="goals"
+            as="textarea"
+            copy={copy.fields.goals}
+            maxlength={MAX_LENGTH.goals}
+            value={values.goals}
+            error={errorFor('goals')}
+            counter={copy.counter}
+            {...common}
+          />
+
+          <div class="field consent" data-field="consent" data-invalid={errors.consent ? '' : undefined}>
+            <div class="consent__row">
+              <input
+                type="checkbox"
+                id="field-consent"
+                name="consent"
+                value="on"
+                required
+                checked={values.consent === 'on'}
+                aria-invalid={errors.consent ? 'true' : undefined}
+                aria-describedby="consent-notice field-consent-error"
+              />
+              <!-- Kept on one line: whitespace here would render as "Privacidade ." -->
+              <!-- prettier-ignore -->
+              <label for="field-consent">{copy.consent.before}<a href={content.routes.privacy} target="_blank" rel="noopener">{copy.consent.link}<span class="visually-hidden">{` ${content.a11y.newTab}`}</span></a>{copy.consent.after}</label>
+            </div>
+            <p class="consent__notice" id="consent-notice">
+              {copy.consent.notice}
+            </p>
+            <p class="field__error" id="field-consent-error" data-error>
+              {errors.consent && (
+                <>
+                  <span class="visually-hidden">{copy.errorPrefix} </span>
+                  {errorFor('consent')}
+                </>
+              )}
+            </p>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Bot traps and context. Hidden from people and assistive technology. -->
+      <div class="application__trap" aria-hidden="true">
+        <label for="field-website">{copy.honeypotLabel}</label>
+        <input id="field-website" type="text" name={SPAM_FIELDS.honeypot} tabindex="-1" autocomplete="off" />
+      </div>
+      <input type="hidden" name={SPAM_FIELDS.startedAt} value={String(startedAt)} />
+      <input type="hidden" name="submissionId" value={submissionId} />
+      <input type="hidden" name="locale" value={content.locale} />
+      {Object.entries(source).map(
+        ([key, value]) => value && <input type="hidden" name={key} value={value} />,
+      )}
+
+      {turnstileSiteKey && (
+        <div class="application__verification">
+          <div
+            class="cf-turnstile"
+            data-sitekey={turnstileSiteKey}
+            data-language={copy.turnstileLanguage}
+            data-theme="light"
+            data-appearance="interaction-only"
+            data-response-field-name={SPAM_FIELDS.turnstile}
+            data-turnstile
+          />
+          <noscript>
+            <p class="application__noscript">{copy.noscript}</p>
+          </noscript>
+        </div>
+      )}
+
+      <div class="application__actions">
+        <Button type="submit" arrow data-submit>
+          {copy.submit}
+        </Button>
+      </div>
+    </form>
+  )}
+
+  <template data-success-template>
+    <SuccessPanel copy={copy.success} />
+  </template>
+</div>
+
+{turnstileSiteKey && (
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
+)}
+
+<script>
+  import { initApplicationForm } from './application-form';
+
+  const root = document.querySelector<HTMLElement>('[data-application]');
+  if (root) initApplicationForm(root);
+</script>
+
+<style>
+  .application__form {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  .application__required {
+    font-size: var(--text-small);
+    color: var(--fg-muted);
+  }
+
+  .application__summary,
+  .application__alert {
+    padding: var(--space-5);
+    border: var(--hairline) solid var(--error);
+    background: var(--white);
+  }
+
+  .application__summary:focus,
+  .application__alert:focus {
+    outline: 2px solid var(--error);
+    outline-offset: 2px;
+  }
+
+  .application__summary[hidden],
+  .application__alert[hidden] {
+    display: none;
+  }
+
+  .application__summary-title {
+    font-weight: 500;
+  }
+
+  .application__summary ul {
+    display: grid;
+    gap: var(--space-1);
+    margin-top: var(--space-3);
+    padding-left: 1.1rem;
+  }
+
+  .application__summary a {
+    color: var(--error);
+    font-weight: 500;
+  }
+
+  .application__alert {
+    font-weight: 500;
+    color: var(--error);
+  }
+
+  .application__fieldset {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .application__fieldset legend {
+    width: 100%;
+    padding: var(--space-4) 0 0;
+    border-top: var(--hairline) solid var(--line);
+    margin-bottom: var(--space-5);
+  }
+
+  .application__grid {
+    display: grid;
+    gap: var(--space-5) var(--space-5);
+  }
+
+  @media (min-width: 48rem) {
+    .application__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .application__trap {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .application__noscript {
+    font-size: var(--text-small);
+    color: var(--error);
+  }
+
+  .application__actions :global(.btn[aria-disabled='true']) {
+    opacity: 0.6;
+    cursor: progress;
+  }
+
+  @media (max-width: 39.99rem) {
+    .application__actions :global(.btn) {
+      width: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,147 @@
+---
+/**
+ * Media mentions. Renders only the items that have a verified article URL;
+ * renders nothing at all until at least one exists.
+ */
+import type { SiteContent } from '@/i18n/types';
+import Arrow from '@/components/ui/Arrow.astro';
+
+interface Props {
+  press: SiteContent['press'];
+  newTabLabel: string;
+  locale: string;
+}
+
+const { press, newTabLabel, locale } = Astro.props;
+const items = press.items.filter((item) => item.url);
+
+const formatDate = (iso: string) =>
+  new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long', year: 'numeric' }).format(
+    new Date(`${iso}T12:00:00`),
+  );
+---
+
+{items.length > 0 && (
+  <div class="press" data-reveal>
+    <div class="press__head">
+      <h3 class="t-h3">{press.title}</h3>
+      <p class="press__lead">{press.lead}</p>
+    </div>
+    <ul class="press__list" role="list">
+      {items.map((item) => (
+        <li>
+          <a class="press__item" href={item.url} target="_blank" rel="noopener noreferrer">
+            <span class="press__outlet label">{item.outlet}</span>
+            <span class="press__headline" lang={item.lang}>
+              {item.headline}
+            </span>
+            <span class="press__meta">
+              {item.date && <time datetime={item.date}>{formatDate(item.date)}</time>}
+              <span class="press__read">
+                {press.readLabel}
+                <span class="visually-hidden"> {newTabLabel}</span>
+                <Arrow direction="up-right" />
+              </span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+
+<style>
+  .press {
+    margin-top: var(--section-pad);
+  }
+
+  .press__head {
+    display: grid;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  .press__lead {
+    max-width: 52ch;
+    color: var(--fg-muted);
+  }
+
+  .press__list {
+    border-top: var(--hairline) solid var(--line);
+  }
+
+  .press__item {
+    display: grid;
+    gap: var(--space-2);
+    padding-block: var(--space-5);
+    border-bottom: var(--hairline) solid var(--line);
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .press__outlet {
+    color: var(--accent);
+  }
+
+  .press__headline {
+    font-family: var(--font-serif);
+    font-size: var(--text-h3);
+    font-weight: 300;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .press__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    font-size: var(--text-small);
+    color: var(--fg-muted);
+  }
+
+  .press__read {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .press__item:hover .press__headline {
+    color: var(--fg-muted);
+  }
+
+  @media (min-width: 64rem) {
+    .press__head {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: var(--grid-gap);
+      align-items: end;
+    }
+
+    .press__head h3 {
+      grid-column: 1 / span 5;
+    }
+
+    .press__lead {
+      grid-column: 7 / span 6;
+    }
+
+    .press__item {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: var(--grid-gap);
+      align-items: baseline;
+    }
+
+    .press__outlet {
+      grid-column: 1 / span 3;
+    }
+
+    .press__headline {
+      grid-column: 4 / span 6;
+    }
+
+    .press__meta {
+      grid-column: 10 / span 3;
+      justify-content: flex-end;
+    }
+  }
+</style>

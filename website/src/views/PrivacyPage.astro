@@ -1,0 +1,115 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getContent } from '@/i18n';
+import type { Locale } from '@/config/site';
+import type { LegalSection } from '@/i18n/types';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const content = getContent(locale);
+const { privacy } = content;
+
+const sections: LegalSection[] = privacy.controller
+  ? [...privacy.sections, privacy.controller]
+  : privacy.sections;
+const updated = new Intl.DateTimeFormat(content.locale, { dateStyle: 'long', timeZone: 'UTC' }).format(
+  new Date(`${privacy.updated}T00:00:00Z`),
+);
+---
+
+<BaseLayout
+  locale={locale}
+  page="privacy"
+  title={privacy.meta.title}
+  description={privacy.meta.description}
+  theme="paper"
+>
+  <article class="legal theme-paper" aria-labelledby="legal-title">
+    <div class="container">
+      <div class="legal__inner">
+        {import.meta.env.DEV && <p class="legal__draft">{privacy.draftNotice}</p>}
+
+        <header class="legal__header">
+          <h1 id="legal-title" class="t-h2">
+            {privacy.title}
+          </h1>
+          <p class="legal__updated">
+            {privacy.updatedLabel}: <time datetime={privacy.updated}>{updated}</time>
+          </p>
+          <p class="legal__intro t-lead">{privacy.intro}</p>
+        </header>
+
+        {sections.map((section) => (
+          <section class="legal__section">
+            <h2 class="t-h3">{section.title}</h2>
+            {section.paragraphs?.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+            {section.list && (
+              <ul>
+                {section.list.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            )}
+            {section.note && <p>{section.note}</p>}
+          </section>
+        ))}
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .legal {
+    background: var(--bg);
+    color: var(--fg);
+    padding-block: clamp(3rem, 2rem + 4vw, 6rem) var(--section-pad);
+  }
+
+  .legal__inner {
+    max-width: 46rem;
+  }
+
+  .legal__draft {
+    margin-bottom: var(--space-7);
+    padding: var(--space-4) var(--space-5);
+    border: var(--hairline) dashed var(--field-border);
+    font-size: var(--text-small);
+  }
+
+  .legal__updated {
+    margin-top: var(--space-4);
+    font-size: var(--text-small);
+    color: var(--fg-muted);
+  }
+
+  .legal__intro {
+    margin-top: var(--space-6);
+    color: var(--fg-muted);
+  }
+
+  .legal__section {
+    margin-top: var(--space-7);
+    padding-top: var(--space-5);
+    border-top: var(--hairline) solid var(--line);
+  }
+
+  .legal__section p,
+  .legal__section ul {
+    margin-top: var(--space-4);
+  }
+
+  .legal__section ul {
+    display: grid;
+    gap: var(--space-2);
+    padding-left: 1.25rem;
+  }
+
+  .legal__section li::marker {
+    color: var(--accent);
+  }
+</style>

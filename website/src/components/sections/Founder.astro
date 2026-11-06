@@ -1,0 +1,107 @@
+---
+/**
+ * Founder section. Biography, affiliation and headshot are optional in the
+ * content model and render only once the owner approves them; without them
+ * the section is a typographic layout built around the founder's quote.
+ */
+import type { SiteContent } from '@/i18n/types';
+import Section from '@/components/layout/Section.astro';
+import SectionHeader from '@/components/layout/SectionHeader.astro';
+import ArrowLink from '@/components/ui/ArrowLink.astro';
+
+interface Props {
+  content: SiteContent;
+}
+
+const { founder, a11y } = Astro.props.content;
+const affiliation = founder.affiliation;
+---
+
+<Section intro={founder.intro} theme="paper" labelledby="founder-title">
+  <SectionHeader intro={founder.intro} />
+
+  <div class="founder layout-grid">
+    <div class="founder__id" data-reveal>
+      <h2 id="founder-title" class="founder__name t-h2">
+        {founder.name}
+      </h2>
+      <p class="founder__role label">{founder.role}</p>
+      {affiliation &&
+        (typeof affiliation === 'string' ? (
+          <p class="founder__affiliation">{affiliation}</p>
+        ) : (
+          <ArrowLink href={affiliation.href} direction="up-right" external newTabLabel={a11y.newTab}>
+            {affiliation.label}
+          </ArrowLink>
+        ))}
+    </div>
+
+    <figure class="founder__quote" data-reveal>
+      <blockquote>
+        <p class="t-statement">{founder.quote}</p>
+      </blockquote>
+      <figcaption class="visually-hidden">{founder.name}</figcaption>
+    </figure>
+
+    {founder.bio && founder.bio.length > 0 && (
+      <div class="founder__bio" data-reveal>
+        {founder.bio.map((paragraph) => (
+          <p>{paragraph}</p>
+        ))}
+      </div>
+    )}
+  </div>
+</Section>
+
+<style>
+  .founder__role {
+    margin-top: var(--space-4);
+    color: var(--fg-muted);
+  }
+
+  .founder__affiliation {
+    margin-top: var(--space-2);
+    color: var(--fg-muted);
+  }
+
+  .founder__id :global(.arrow-link) {
+    margin-top: var(--space-3);
+  }
+
+  .founder__quote p {
+    max-width: 24ch;
+  }
+
+  /* Quote marks live in CSS so formatting can never add stray spaces.
+     Hanging punctuation: the opening mark sits in the margin so the text
+     edge stays aligned with the grid. */
+  .founder__quote p::before {
+    content: '“';
+    margin-left: -0.42em;
+  }
+
+  .founder__quote p::after {
+    content: '”';
+  }
+
+  .founder__bio {
+    display: grid;
+    gap: var(--space-4);
+    max-width: var(--measure);
+    color: var(--fg-muted);
+  }
+
+  @media (min-width: 64rem) {
+    .founder__id {
+      grid-column: 1 / span 4;
+    }
+
+    .founder__quote {
+      grid-column: 6 / span 7;
+    }
+
+    .founder__bio {
+      grid-column: 6 / span 6;
+    }
+  }
+</style>

@@ -1,0 +1,26 @@
+---
+/**
+ * Interim typographic wordmark. Replace with the official logo (SVG) once
+ * supplied; keep the accessible name.
+ */
+interface Props {
+  text: string;
+  class?: string;
+}
+const { text, class: className } = Astro.props;
+---
+
+<span class:list={['wordmark', className]}>{text}</span>
+
+<style>
+  .wordmark {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: var(--tracking-wordmark);
+    line-height: 1;
+    white-space: nowrap;
+    /* Optical correction: tracking adds trailing space after the last letter. */
+    margin-inline-end: calc(-1 * var(--tracking-wordmark));
+  }
+</style>

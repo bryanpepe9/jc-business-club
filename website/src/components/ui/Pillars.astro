@@ -1,0 +1,29 @@
+---
+/**
+ * "Relacionamento · Oportunidades · Negócios" — each item stays unbroken and
+ * the separator trails its word, so lines never start with a dot.
+ */
+interface Props {
+  items: string[];
+  class?: string;
+}
+const { items, class: className } = Astro.props;
+---
+
+<p class:list={['pillars label', className]}>
+  {items.map((item) => (
+    <span>{item}</span>
+  ))}
+</p>
+
+<style>
+  .pillars span {
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  .pillars span:not(:last-child)::after {
+    content: '·';
+    margin-inline: 0.6em;
+  }
+</style>

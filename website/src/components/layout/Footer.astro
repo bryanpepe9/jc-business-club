@@ -1,0 +1,157 @@
+---
+import type { SiteContent } from '@/i18n/types';
+import { contact, hasContact } from '@/config/site';
+import Wordmark from '@/components/ui/Wordmark.astro';
+import LanguageSwitch from '@/components/ui/LanguageSwitch.astro';
+import type { Locale } from '@/config/site';
+
+interface Props {
+  content: SiteContent;
+  alternates: Record<Locale, string>;
+}
+
+const { content, alternates } = Astro.props;
+const { brand, nav, footer, a11y } = content;
+
+const contactLinks = [
+  contact.email && { label: contact.email, href: `mailto:${contact.email}` },
+  contact.whatsapp && {
+    label: 'WhatsApp',
+    href: `https://wa.me/${contact.whatsapp.replace(/\D/g, '')}`,
+    external: true,
+  },
+  contact.instagram && { label: 'Instagram', href: contact.instagram, external: true },
+  contact.linkedin && { label: 'LinkedIn', href: contact.linkedin, external: true },
+].filter(Boolean) as { label: string; href: string; external?: boolean }[];
+---
+
+<footer class="site-footer theme-ink">
+  <div class="container">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <a href={content.routes.home} aria-label={a11y.homeLink} class="site-footer__wordmark">
+          <Wordmark text={brand.wordmark} />
+        </a>
+        <p class="site-footer__tagline">{footer.tagline}</p>
+      </div>
+
+      <nav class="site-footer__nav" aria-label={a11y.footerNav}>
+        <ul role="list">
+          {[...nav.items, nav.cta].map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      {hasContact && (
+        <ul class="site-footer__contact" role="list">
+          {contactLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                target={link.external ? '_blank' : undefined}
+                rel={link.external ? 'noopener noreferrer' : undefined}
+              >
+                {link.label}
+                {link.external && <span class="visually-hidden"> {a11y.newTab}</span>}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+
+    <div class="site-footer__bottom">
+      <p>{footer.copyright}</p>
+      {footer.location && <p>{footer.location}</p>}
+      <LanguageSwitch locale={content.locale} alternates={alternates} label={a11y.languageNav} show="all" />
+      <ul role="list" class="site-footer__legal">
+        {footer.legal.map((link) => (
+          <li>
+            <a href={link.href}>{link.label}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--bg);
+    color: var(--fg);
+    padding-block: var(--space-9) var(--space-6);
+    font-size: var(--text-small);
+  }
+
+  .site-footer__top {
+    display: grid;
+    gap: var(--space-7);
+    padding-bottom: var(--space-8);
+  }
+
+  .site-footer__wordmark {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .site-footer__tagline {
+    margin-top: var(--space-4);
+    font-family: var(--font-serif);
+    font-size: var(--text-h3);
+    font-weight: 300;
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-display);
+    max-width: 18ch;
+  }
+
+  .site-footer__nav ul,
+  .site-footer__contact {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .site-footer a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.25rem;
+    color: var(--fg-muted);
+    text-decoration: none;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .site-footer a:hover {
+    color: var(--fg);
+  }
+
+  .site-footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-6);
+    padding-top: var(--space-5);
+    border-top: var(--hairline) solid var(--line);
+    color: var(--fg-muted);
+  }
+
+  .site-footer__legal {
+    display: flex;
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 48rem) {
+    .site-footer__top {
+      grid-template-columns: minmax(0, 6fr) minmax(0, 3fr) minmax(0, 3fr);
+      gap: var(--grid-gap);
+    }
+
+    .site-footer__legal {
+      margin-inline-start: auto;
+    }
+  }
+</style>

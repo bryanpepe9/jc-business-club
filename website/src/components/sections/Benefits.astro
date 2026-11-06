@@ -1,0 +1,69 @@
+---
+import type { SiteContent } from '@/i18n/types';
+import Section from '@/components/layout/Section.astro';
+import SectionHeader from '@/components/layout/SectionHeader.astro';
+
+interface Props {
+  content: SiteContent;
+}
+
+const { benefits } = Astro.props.content;
+---
+
+<Section intro={benefits.intro} theme="sand" labelledby="benefits-title">
+  <SectionHeader intro={benefits.intro} />
+
+  <div class="benefits layout-grid">
+    <h2 id="benefits-title" class="benefits__title t-h2" data-reveal>
+      {benefits.title}
+    </h2>
+
+    <ul class="benefits__list" role="list" data-reveal>
+      {benefits.items.map((item) => (
+        <li>
+          <h3 class="t-h3">{item.title}</h3>
+          <p>{item.text}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Section>
+
+<style>
+  .benefits__title {
+    max-width: 10ch;
+  }
+
+  .benefits__list {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .benefits__list li {
+    padding-top: var(--space-5);
+    border-top: var(--hairline) solid var(--line);
+  }
+
+  .benefits__list p {
+    margin-top: var(--space-3);
+    max-width: 34ch;
+    color: var(--fg-muted);
+  }
+
+  @media (min-width: 48rem) {
+    .benefits__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-8) var(--grid-gap);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .benefits__title {
+      grid-column: 1 / span 4;
+    }
+
+    .benefits__list {
+      grid-column: 6 / span 7;
+    }
+  }
+</style>

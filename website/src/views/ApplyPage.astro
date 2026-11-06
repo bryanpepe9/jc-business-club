@@ -1,0 +1,204 @@
+---
+/**
+ * Membership application view (both languages). Rendered on demand by the
+ * route files: each visit gets its own submission id and timestamp, and the
+ * no-JS form path renders the action result here.
+ */
+import { isActionError } from 'astro:actions';
+import { PUBLIC_TURNSTILE_SITE_KEY } from 'astro:env/client';
+import { APPLICATION_FROM_EMAIL, APPLICATION_TO_EMAIL, RESEND_API_KEY } from 'astro:env/server';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ApplicationForm from '@/components/form/ApplicationForm.astro';
+import Pillars from '@/components/ui/Pillars.astro';
+import { getContent } from '@/i18n';
+import type { Locale } from '@/config/site';
+import { SOURCE_FIELDS } from '@/lib/application/fields';
+import type { ApplyFailure, ApplyResult } from '@/actions';
+
+interface Props {
+  locale: Locale;
+  /** Result of a no-JS form submission, read by the route. */
+  result?: { data?: ApplyResult; error?: unknown };
+}
+
+const { locale } = Astro.props;
+const content = getContent(locale);
+const { application, membership, brand } = content;
+
+const { result } = Astro.props;
+const failures: ApplyFailure[] = ['verification', 'unavailable', 'delivery'];
+const failure: ApplyFailure | undefined = result?.error
+  ? isActionError(result.error) && failures.includes(result.error.message as ApplyFailure)
+    ? (result.error.message as ApplyFailure)
+    : 'delivery'
+  : undefined;
+const data = result?.data;
+
+const deliveryConfigured = Boolean(RESEND_API_KEY && APPLICATION_TO_EMAIL && APPLICATION_FROM_EMAIL);
+const devMode = import.meta.env.DEV && !deliveryConfigured;
+
+const source = Object.fromEntries(
+  SOURCE_FIELDS.map((key) => [key, (Astro.url.searchParams.get(key) ?? '').slice(0, 100)]),
+);
+---
+
+<BaseLayout
+  locale={locale}
+  page="apply"
+  title={application.meta.title}
+  description={application.meta.description}
+  theme="paper"
+>
+  <section class="apply theme-paper" aria-labelledby="apply-title">
+    <div class="container apply__grid">
+      <aside class="apply__aside">
+        <p class="apply__eyebrow label">{application.eyebrow}</p>
+        <h1 id="apply-title" class="apply__title t-h2">
+          {application.title}
+        </h1>
+        <p class="apply__intro">{application.intro}</p>
+
+        <div class="apply__offer">
+          <p class="apply__price">
+            <span class="apply__amount" aria-hidden="true">
+              {membership.price.amount}
+              <span class="apply__period">{membership.price.period}</span>
+            </span>
+            <span class="visually-hidden">{membership.price.spoken}</span>
+          </p>
+          <ul class="apply__inclusions" role="list">
+            {membership.inclusions.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+          <p class="apply__note">{application.summaryNote}</p>
+        </div>
+
+        <Pillars class="apply__pillars" items={brand.pillars} />
+      </aside>
+
+      <div class="apply__main">
+        {devMode && <p class="apply__dev">{application.devBanner}</p>}
+        <ApplicationForm
+          content={content}
+          values={data?.status === 'invalid' ? data.values : undefined}
+          errors={data?.status === 'invalid' ? data.errors : undefined}
+          success={data?.status === 'ok' ? { name: data.name, mode: data.mode } : undefined}
+          failure={failure}
+          turnstileSiteKey={PUBLIC_TURNSTILE_SITE_KEY}
+          startedAt={Date.now()}
+          submissionId={crypto.randomUUID()}
+          source={source}
+        />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .apply {
+    background: var(--bg);
+    color: var(--fg);
+    padding-block: clamp(3rem, 2rem + 4vw, 6rem) var(--section-pad);
+  }
+
+  .apply__grid {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .apply__eyebrow {
+    color: var(--accent);
+  }
+
+  .apply__title {
+    margin-top: var(--space-4);
+  }
+
+  .apply__intro {
+    margin-top: var(--space-5);
+    max-width: 40ch;
+    color: var(--fg-muted);
+  }
+
+  .apply__offer {
+    margin-top: var(--space-7);
+    padding-top: var(--space-5);
+    border-top: var(--hairline) solid var(--line);
+  }
+
+  .apply__price {
+    font-family: var(--font-serif);
+    font-size: clamp(2.75rem, 2rem + 2.5vw, 3.75rem);
+    font-weight: 200;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: lining-nums;
+  }
+
+  /* Flex drops the whitespace between amount and period. */
+  .apply__amount {
+    display: inline-flex;
+    align-items: baseline;
+  }
+
+  .apply__period {
+    margin-left: 0.08em;
+    font-size: 0.4em;
+    font-weight: 300;
+    letter-spacing: 0;
+    color: var(--fg-muted);
+  }
+
+  .apply__inclusions {
+    margin-top: var(--space-5);
+    border-top: var(--hairline) solid var(--line);
+    font-size: var(--text-small);
+  }
+
+  .apply__inclusions li {
+    padding-block: var(--space-3);
+    border-bottom: var(--hairline) solid var(--line);
+  }
+
+  .apply__note {
+    margin-top: var(--space-4);
+    font-size: var(--text-small);
+    color: var(--fg-muted);
+  }
+
+  .apply :global(.apply__pillars) {
+    display: none;
+  }
+
+  .apply__dev {
+    margin-bottom: var(--space-6);
+    padding: var(--space-4) var(--space-5);
+    border: var(--hairline) dashed var(--field-border);
+    font-size: var(--text-small);
+  }
+
+  @media (min-width: 64rem) {
+    .apply__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: var(--grid-gap);
+      align-items: start;
+    }
+
+    .apply__aside {
+      grid-column: 1 / span 4;
+      position: sticky;
+      top: calc(var(--header-h) + var(--space-6));
+    }
+
+    .apply__main {
+      grid-column: 6 / span 7;
+    }
+
+    .apply :global(.apply__pillars) {
+      display: block;
+      margin-top: var(--space-7);
+      color: var(--fg-muted);
+    }
+  }
+</style>

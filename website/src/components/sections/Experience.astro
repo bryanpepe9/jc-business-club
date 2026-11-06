@@ -1,0 +1,141 @@
+---
+import type { SiteContent } from '@/i18n/types';
+import Section from '@/components/layout/Section.astro';
+import SectionHeader from '@/components/layout/SectionHeader.astro';
+import Photo from '@/components/ui/Photo.astro';
+import experiencePhoto from '@/assets/photos/experience.jpg';
+
+interface Props {
+  content: SiteContent;
+}
+
+const { experience } = Astro.props.content;
+---
+
+<Section intro={experience.intro} theme="ink" labelledby="experience-title">
+  <SectionHeader intro={experience.intro} />
+
+  <div class="experience layout-grid">
+    <div class="experience__main">
+      <h2 id="experience-title" class="experience__title" data-reveal>
+        <span class="experience__numeral">{experience.numeral}</span>{' '}
+        <span class="experience__title-text">{experience.title}</span>
+      </h2>
+
+      <p class="experience__body t-lead" data-reveal>
+        {experience.body}
+      </p>
+
+      <dl class="experience__details" data-reveal>
+        {experience.details.map((detail) => (
+          <div>
+            <dt class="label">{detail.term}</dt>
+            <dd>{detail.description}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <p class="experience__statement t-statement" data-reveal>
+        {experience.statement.map((line) => (
+          <span>{line}</span>
+        ))}
+      </p>
+    </div>
+
+    <Photo
+      class="experience__photo"
+      src={experiencePhoto}
+      alt={experience.photo.alt}
+      ratio="4 / 5"
+      sizes="(min-width: 80rem) 31rem, (min-width: 64rem) 38vw, 100vw"
+    />
+  </div>
+</Section>
+
+<style>
+  .experience__title {
+    display: flex;
+    align-items: flex-end;
+    gap: clamp(1rem, 0.5rem + 2vw, 2rem);
+  }
+
+  .experience__numeral {
+    flex: none;
+    font-size: clamp(7.5rem, 4rem + 14vw, 15rem);
+    font-weight: 200;
+    line-height: 0.74;
+    letter-spacing: -0.04em;
+    font-variant-numeric: lining-nums;
+  }
+
+  .experience__title-text {
+    max-width: 9ch;
+    padding-bottom: 0.08em;
+    font-size: var(--text-h2);
+    line-height: 1.04;
+  }
+
+  .experience__body {
+    margin-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+    max-width: var(--measure);
+    color: var(--fg-muted);
+  }
+
+  .experience__details {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-7);
+  }
+
+  .experience__details > div {
+    padding-top: var(--space-4);
+    border-top: var(--hairline) solid var(--line);
+  }
+
+  .experience__details dt {
+    color: var(--fg-muted);
+  }
+
+  .experience__details dd {
+    margin-top: var(--space-2);
+  }
+
+  .experience__statement {
+    margin-top: var(--section-head-gap);
+  }
+
+  .experience__statement span {
+    display: block;
+  }
+
+  .experience__statement span + span {
+    color: var(--accent);
+  }
+
+  @media (min-width: 40rem) {
+    .experience__details {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--grid-gap);
+    }
+  }
+
+  /* Tablet: standing figures need the portrait crop, so narrow it instead. */
+  @media (min-width: 40rem) and (max-width: 63.99rem) {
+    .experience :global(.experience__photo) {
+      max-width: 30rem;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .experience :global(.experience__photo) {
+      grid-column: 1 / span 5;
+      grid-row: 1;
+      align-self: start;
+    }
+
+    .experience__main {
+      grid-column: 7 / span 6;
+      grid-row: 1;
+    }
+  }
+</style>

@@ -1,0 +1,259 @@
+---
+/**
+ * Dev-only style guide (injected in astro.config only for `astro dev`).
+ * Shows tokens and core components on every section theme.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionHeader from '@/components/layout/SectionHeader.astro';
+import Button from '@/components/ui/Button.astro';
+import ArrowLink from '@/components/ui/ArrowLink.astro';
+import Photo from '@/components/ui/Photo.astro';
+import Wordmark from '@/components/ui/Wordmark.astro';
+import Press from '@/components/sections/Press.astro';
+import { getContent } from '@/i18n';
+import experience from '@/assets/photos/experience.jpg';
+import gallery from '@/assets/photos/gallery-02.jpg';
+
+const palette = [
+  ['--ink', '#121212', 'Dark sections, primary text'],
+  ['--graphite', '#1E1E1C', 'Raised dark surface'],
+  ['--line-dark', '#2E2E2B', 'Hairlines on dark'],
+  ['--mist', '#A3A19B', 'Secondary text on dark · 7.25:1'],
+  ['--paper', '#F8F8F6', 'Light sections'],
+  ['--sand', '#EFEDE8', 'Alternate light surface'],
+  ['--line-light', '#DCD8CF', 'Hairlines on light'],
+  ['--stone', '#6B6A66', 'Secondary text on light · 5.09:1'],
+  ['--bronze', '#AE894A', 'Accent text on dark · 5.78:1'],
+  ['--bronze-deep', '#84652F', 'Accent text on light · 5.09:1'],
+];
+
+const themes = ['paper', 'sand', 'ink', 'graphite'] as const;
+
+// Press renders only with verified URLs; preview it here with placeholder links.
+const content = getContent();
+const pressPreview = {
+  ...content.press,
+  items: content.press.items.map((item) => ({ ...item, url: '#preview' })),
+};
+const intro = { id: 'demo', index: '01', label: 'O clube' };
+---
+
+<BaseLayout locale="pt-BR" title="Style guide" noindex theme="paper">
+  <section class="sg theme-paper">
+    <div class="container">
+      <p class="label muted">JC Business Club · Style guide (dev only)</p>
+      <h1 class="sg__title">À mesa</h1>
+      <p class="sg__lead muted">
+        Tokens and core components. Every component reads semantic tokens, so it works on any section theme.
+      </p>
+
+      <h2 class="sg__h">Palette</h2>
+      <div class="sg__palette">
+        {palette.map(([name, hex, role]) => (
+          <div class="sg__swatch">
+            <div class="sg__chip" style={`background:${hex}`} />
+            <p class="sg__mono">{name}</p>
+            <p class="sg__mono muted">{hex}</p>
+            <p class="sg__role">{role}</p>
+          </div>
+        ))}
+      </div>
+
+      <h2 class="sg__h">Typography</h2>
+      <div class="sg__type">
+        <p class="sg__meta">Display · Newsreader 300 · 48→104px</p>
+        <p class="t-display">Conexões que geram negócios.</p>
+        <p class="sg__meta">H2 · Newsreader 300 · 36→64px</p>
+        <p class="t-h2">Por que criamos o clube</p>
+        <p class="sg__meta">Statement · Newsreader 300 · 28→48px</p>
+        <p class="t-statement">
+          “Quando reunimos as pessoas certas à mesa, os projetos avançam com mais facilidade e segurança para
+          todos.”
+        </p>
+        <p class="sg__meta">H3 · Newsreader 400 · 22→28px</p>
+        <p class="t-h3">Conexões estratégicas</p>
+        <p class="sg__meta">Lead · Inter 400 · 18→22px</p>
+        <p class="t-lead">Uma rede privada e selecionada que reúne empresários, investidores e lideranças.</p>
+        <p class="sg__meta">Body · Inter 400 · 17→18px / 1.6</p>
+        <p class="t-body">
+          Encontros presenciais de aproximadamente quatro horas, em ambiente reservado e agradável, com tempo
+          para boas conversas, troca de experiências e desenvolvimento das oportunidades.
+        </p>
+        <p class="sg__meta">Label · Inter 500 · 12px · +0.14em</p>
+        <p class="label">Relacionamento · Oportunidades · Negócios</p>
+        <p class="sg__meta">Wordmark (interim) · Inter 600 · 13px · +0.2em</p>
+        <p>
+          <Wordmark text="JC BUSINESS CLUB" />
+        </p>
+        <p class="sg__meta">Numerals · Newsreader 300</p>
+        <p class="t-numerals">
+          <span>2</span>
+          <span>R$ 990</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {themes.map((theme) => (
+    <section class={`sg-theme theme-${theme}`}>
+      <div class="container">
+        <SectionHeader intro={{ ...intro, label: `Tema ${theme}` }} />
+        <div class="sg-theme__row">
+          <Button href="#">Solicitar participação</Button>
+          <Button href="#" arrow>
+            Quero fazer parte
+          </Button>
+          <Button href="#" variant="outline">
+            Contorno
+          </Button>
+          <Button href="#" variant="outline" size="small">
+            Pequeno
+          </Button>
+          <ArrowLink href="#">Conheça o clube</ArrowLink>
+          <ArrowLink href="#" direction="up-right">
+            Ler matéria
+          </ArrowLink>
+        </div>
+        <p class="sg-theme__text">
+          Texto principal com <span class="muted">texto secundário</span> e{' '}
+          <span style="color: var(--accent)">acento</span>.
+        </p>
+      </div>
+    </section>
+  ))}
+
+  <section class="sg theme-ink">
+    <div class="container">
+      <p class="label muted">
+        Press block preview — placeholder links, hidden on the site until URLs are verified
+      </p>
+      <Press press={pressPreview} newTabLabel={content.a11y.newTab} locale={content.locale} />
+    </div>
+  </section>
+
+  <section class="sg theme-paper">
+    <div class="container">
+      <h2 class="sg__h">Photography</h2>
+      <div class="sg__photos">
+        <Photo src={experience} alt="" ratio="4 / 5" sizes="(min-width: 64rem) 30vw, 100vw" />
+        <Photo src={gallery} alt="" ratio="3 / 2" sizes="(min-width: 64rem) 60vw, 100vw" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .sg {
+    background: var(--bg);
+    color: var(--fg);
+    padding-block: var(--space-9);
+  }
+
+  .sg__title {
+    margin-top: var(--space-5);
+    font-size: var(--text-display);
+    line-height: var(--leading-tight);
+  }
+
+  .sg__lead {
+    margin-top: var(--space-5);
+    max-width: 50ch;
+    font-size: var(--text-lead);
+  }
+
+  .sg__h {
+    margin: var(--space-9) 0 var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--line);
+    font-size: var(--text-h3);
+  }
+
+  .sg__palette {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+    gap: var(--space-5);
+  }
+
+  .sg__chip {
+    height: 5rem;
+    border: 1px solid var(--line);
+    margin-bottom: var(--space-3);
+  }
+
+  .sg__mono {
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .sg__role {
+    margin-top: var(--space-2);
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+
+  .sg__type {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .sg__meta {
+    margin-top: var(--space-6);
+    font-size: 0.75rem;
+    color: var(--fg-muted);
+  }
+
+  .sg__type > p:not(.sg__meta) {
+    max-width: 52rem;
+  }
+
+  .t-display,
+  .t-numerals {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    letter-spacing: var(--tracking-display);
+    text-wrap: balance;
+  }
+
+  .t-display {
+    font-size: var(--text-display);
+    line-height: var(--leading-tight);
+  }
+
+  .t-numerals {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-7);
+    font-size: clamp(4rem, 2rem + 8vw, 9rem);
+    line-height: 1;
+    font-variant-numeric: lining-nums;
+  }
+
+  .sg-theme {
+    background: var(--bg);
+    color: var(--fg);
+    padding-block: var(--space-8);
+  }
+
+  .sg-theme__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-5);
+  }
+
+  .sg-theme__text {
+    margin-top: var(--space-6);
+  }
+
+  .sg__photos {
+    display: grid;
+    gap: var(--grid-gap);
+  }
+
+  @media (min-width: 64rem) {
+    .sg__photos {
+      grid-template-columns: 1fr 2fr;
+      align-items: end;
+    }
+  }
+</style>

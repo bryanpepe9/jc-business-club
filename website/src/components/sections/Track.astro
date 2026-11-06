@@ -1,0 +1,166 @@
+---
+import type { SiteContent } from '@/i18n/types';
+import Section from '@/components/layout/Section.astro';
+import SectionHeader from '@/components/layout/SectionHeader.astro';
+import Photo from '@/components/ui/Photo.astro';
+import Press from './Press.astro';
+import gallery01 from '@/assets/photos/gallery-01.jpg';
+import gallery02 from '@/assets/photos/gallery-02.jpg';
+import gallery03 from '@/assets/photos/gallery-03.jpg';
+import gallery04 from '@/assets/photos/gallery-04.jpg';
+import gallery05 from '@/assets/photos/gallery-05.jpg';
+
+interface Props {
+  content: SiteContent;
+}
+
+const { track, press, a11y } = Astro.props.content;
+
+// Order matches content.track.photos. Desktop sizes follow the grid spans below.
+const images = [
+  { src: gallery01, sizes: '(min-width: 64rem) 55vw, 82vw' },
+  { src: gallery05, sizes: '(min-width: 64rem) 40vw, 82vw' },
+  { src: gallery02, sizes: '(min-width: 64rem) 32vw, 82vw' },
+  { src: gallery04, sizes: '(min-width: 64rem) 32vw, 82vw' },
+  { src: gallery03, sizes: '(min-width: 64rem) 32vw, 82vw' },
+];
+---
+
+<Section intro={track.intro} theme="ink" labelledby="track-title">
+  <SectionHeader intro={track.intro} />
+
+  <div class="track__head layout-grid">
+    <h2 id="track-title" class="track__title t-h2" data-reveal>
+      {track.title}
+    </h2>
+    <p class="track__lead t-lead" data-reveal>
+      {track.lead}
+    </p>
+  </div>
+
+  <ul class="gallery" role="list" aria-label={track.galleryLabel} data-gallery data-reveal>
+    {track.photos.map((photo, i) => (
+      <li class={`gallery__item gallery__item--${i + 1}`}>
+        <Photo src={images[i].src} alt={photo.alt} sizes={images[i].sizes} />
+      </li>
+    ))}
+  </ul>
+
+  <p class="track__caption">{track.caption}</p>
+
+  <Press press={press} newTabLabel={a11y.newTab} locale={Astro.props.content.locale} />
+</Section>
+
+<script>
+  // The gallery scrolls horizontally on small screens. Make it keyboard
+  // focusable only while it actually overflows.
+  const gallery = document.querySelector<HTMLElement>('[data-gallery]');
+  if (gallery) {
+    const sync = () => {
+      const scrollable = gallery.scrollWidth > gallery.clientWidth + 1;
+      if (scrollable) gallery.tabIndex = 0;
+      else gallery.removeAttribute('tabindex');
+    };
+    new ResizeObserver(sync).observe(gallery);
+  }
+</script>
+
+<style>
+  .track__title {
+    max-width: 14ch;
+  }
+
+  .track__lead {
+    max-width: 36ch;
+    color: var(--fg-muted);
+  }
+
+  /* Small screens: native horizontal swipe, next photo peeking in. */
+  .gallery {
+    display: flex;
+    gap: var(--space-3);
+    margin-top: var(--section-head-gap);
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: var(--gutter);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+
+  .gallery::-webkit-scrollbar {
+    display: none;
+  }
+
+  .gallery__item {
+    flex: 0 0 82%;
+    scroll-snap-align: start;
+  }
+
+  .gallery__item :global(.photo) {
+    aspect-ratio: 4 / 5;
+  }
+
+  .track__caption {
+    margin-top: var(--space-5);
+    font-size: var(--text-small);
+    color: var(--fg-muted);
+  }
+
+  @media (min-width: 40rem) {
+    .gallery__item {
+      flex-basis: 58%;
+    }
+  }
+
+  /* Large screens: asymmetric editorial grid. */
+  @media (min-width: 64rem) {
+    .track__head {
+      align-items: end;
+    }
+
+    .track__title {
+      grid-column: 1 / span 7;
+    }
+
+    .track__lead {
+      grid-column: 9 / span 4;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-template-rows: clamp(20rem, 32vw, 32rem) clamp(13rem, 20vw, 20rem);
+      gap: var(--grid-gap);
+      margin-inline: 0;
+      padding-inline: 0;
+      overflow: visible;
+    }
+
+    .gallery__item :global(.photo) {
+      aspect-ratio: auto;
+      height: 100%;
+    }
+
+    .gallery__item--1 {
+      grid-column: 1 / span 7;
+    }
+
+    .gallery__item--2 {
+      grid-column: 8 / span 5;
+    }
+
+    .gallery__item--3 {
+      grid-column: 1 / span 4;
+    }
+
+    .gallery__item--4 {
+      grid-column: 5 / span 4;
+    }
+
+    .gallery__item--5 {
+      grid-column: 9 / span 4;
+    }
+  }
+</style>

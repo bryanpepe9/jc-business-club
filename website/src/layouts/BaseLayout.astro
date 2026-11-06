@@ -1,0 +1,156 @@
+---
+import { Font } from 'astro:assets';
+import '@/styles/tokens.css';
+import '@/styles/base.css';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+import { getContent } from '@/i18n';
+import { DEFAULT_LOCALE, LOCALES, localizedRoutes, type Locale, type PageKey } from '@/config/site';
+
+interface Props {
+  locale: Locale;
+  /** Which page this is, so each language version can link to the others. Omit for the 404. */
+  page?: PageKey;
+  /** Page title; the brand is appended unless this is the home page. */
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+  /** Theme applied to <body> (visible behind overscroll). */
+  theme?: 'paper' | 'ink';
+}
+
+const { locale, page, title, noindex = false, theme = 'ink' } = Astro.props;
+const content = getContent(locale);
+const description = Astro.props.description ?? content.meta.description;
+
+// This page in every language (for hreflang and the language switch).
+const alternates = Object.fromEntries(LOCALES.map((l) => [l, localizedRoutes[l][page ?? 'home']])) as Record<
+  Locale,
+  string
+>;
+const absolute = (path: string) => new URL(path, Astro.site).href;
+
+const pageTitle = title ? `${title} — ${content.brand.name}` : content.meta.title;
+const canonical = page ? absolute(alternates[locale]) : new URL(Astro.url.pathname, Astro.site).href;
+const ogLocale = (l: string) => (l === 'en' ? 'en_US' : l.replace('-', '_'));
+
+const organization = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: content.brand.name,
+  url: absolute(content.routes.home),
+  slogan: content.brand.tagline,
+  founder: { '@type': 'Person', name: content.founder.name },
+};
+---
+
+<!doctype html>
+<html lang={content.locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {page && LOCALES.map((l) => <link rel="alternate" hreflang={l} href={absolute(alternates[l])} />)}
+    {page && <link rel="alternate" hreflang="x-default" href={absolute(alternates[DEFAULT_LOCALE])} />}
+
+    <meta name="theme-color" content="#121212" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={content.brand.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={ogLocale(locale)} />
+    {LOCALES.filter((l) => l !== locale).map((l) => (
+      <meta property="og:locale:alternate" content={ogLocale(l)} />
+    ))}
+    <meta name="twitter:card" content="summary" />
+
+    <Font cssVariable="--font-newsreader" preload />
+    <Font cssVariable="--font-inter" preload />
+
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(organization)} />
+  </head>
+  <body class:list={[`theme-${theme}`]}>
+    <a class="skip-link" href="#conteudo">
+      {content.a11y.skipLink}
+    </a>
+    <Header content={content} alternates={alternates} />
+    <main id="conteudo" tabindex="-1">
+      <slot />
+    </main>
+    <Footer content={content} alternates={alternates} />
+
+    <script>
+      const targets = document.querySelectorAll<HTMLElement>('[data-reveal]');
+      const reveal = (el: Element) => el.classList.add('is-visible');
+      document.documentElement.classList.add('reveal-ready');
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                reveal(entry.target);
+                observer.unobserve(entry.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -6% 0px', threshold: 0.08 },
+        );
+        targets.forEach((el) => observer.observe(el));
+      } else {
+        targets.forEach(reveal);
+      }
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  .skip-link {
+    position: absolute;
+    top: var(--space-3);
+    left: var(--space-3);
+    z-index: var(--z-skip);
+    padding: var(--space-3) var(--space-5);
+    background: var(--paper);
+    color: var(--ink);
+    font-size: var(--text-small);
+    font-weight: 500;
+    text-decoration: none;
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus-visible {
+    transform: none;
+    outline-color: var(--bronze);
+  }
+
+  main:focus {
+    outline: none;
+  }
+
+  /* Safety net: if the reveal script never initialises, show content after 2.5s. */
+  @media (prefers-reduced-motion: no-preference) {
+    .js:not(.reveal-ready) [data-reveal] {
+      animation: reveal-fallback 0s 2.5s forwards;
+    }
+  }
+
+  @keyframes reveal-fallback {
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>

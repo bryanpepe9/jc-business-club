@@ -1,0 +1,203 @@
+---
+import type { SiteContent } from '@/i18n/types';
+import Wordmark from '@/components/ui/Wordmark.astro';
+import Button from '@/components/ui/Button.astro';
+import LanguageSwitch from '@/components/ui/LanguageSwitch.astro';
+import type { Locale } from '@/config/site';
+
+interface Props {
+  content: SiteContent;
+  alternates: Record<Locale, string>;
+}
+
+const { content, alternates } = Astro.props;
+const { nav, brand, a11y } = content;
+---
+
+<dialog id="site-menu" class="menu theme-ink" aria-label={a11y.menu} data-menu>
+  <div class="menu__inner">
+    <div class="container menu__top">
+      <a class="menu__brand" href={content.routes.home} aria-label={a11y.homeLink} data-menu-link>
+        <Wordmark text={brand.wordmark} />
+      </a>
+      <button type="button" class="menu__close" data-menu-close>
+        <span>{a11y.closeMenu}</span>
+        <span class="menu__close-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+
+    <nav class="container menu__nav">
+      <ol role="list">
+        {nav.items.map((item) => (
+          <li>
+            <a href={item.href} data-menu-link>
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+
+    <div class="container menu__footer">
+      <Button href={nav.cta.href} arrow class="menu__cta" data-menu-link>
+        {nav.cta.label}
+      </Button>
+      <LanguageSwitch locale={content.locale} alternates={alternates} label={a11y.languageNav} show="all" />
+      <p class="menu__tagline">{brand.tagline}</p>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('[data-menu]');
+  const openButton = document.querySelector<HTMLButtonElement>('[data-menu-open]');
+
+  if (dialog && openButton) {
+    const root = document.documentElement;
+
+    openButton.addEventListener('click', () => {
+      dialog.showModal();
+      root.classList.add('menu-open');
+    });
+
+    dialog.addEventListener('close', () => {
+      root.classList.remove('menu-open');
+    });
+
+    dialog.querySelector('[data-menu-close]')?.addEventListener('click', () => dialog.close());
+
+    // Close before the browser follows the link so anchor scrolling works.
+    dialog.querySelectorAll('[data-menu-link]').forEach((link) => {
+      link.addEventListener('click', () => dialog.close());
+    });
+
+    // The menu is mobile-only; close it if the viewport grows past the breakpoint.
+    window.matchMedia('(min-width: 82rem)').addEventListener('change', (event) => {
+      if (event.matches && dialog.open) dialog.close();
+    });
+  }
+</script>
+
+<style>
+  .menu {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: var(--bg);
+    color: var(--fg);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .menu::backdrop {
+    background: var(--ink);
+  }
+
+  .menu[open] {
+    animation: menu-in var(--dur-base) var(--ease-out);
+  }
+
+  /* Movement only, no opacity: the menu is fully visible even if the
+     animation never runs (e.g. a throttled background tab). */
+  @keyframes menu-in {
+    from {
+      transform: translateY(-0.75rem);
+    }
+  }
+
+  :global(html.menu-open) {
+    overflow: hidden;
+  }
+
+  .menu__inner {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+
+  .menu__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-h);
+    border-bottom: var(--hairline) solid var(--line);
+  }
+
+  .menu__brand {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .menu__close {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 2.75rem;
+    padding-inline: 0.25rem;
+    margin-inline-end: -0.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .menu__close-icon {
+    position: relative;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .menu__close-icon::before,
+  .menu__close-icon::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0 auto;
+    height: var(--hairline);
+    background: currentColor;
+    rotate: 45deg;
+  }
+
+  .menu__close-icon::after {
+    rotate: -45deg;
+  }
+
+  .menu__nav {
+    flex: 1;
+    padding-block: var(--space-6);
+  }
+
+  .menu__nav a {
+    display: block;
+    padding-block: 0.875rem;
+    border-bottom: var(--hairline) solid var(--line);
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 1.2rem + 2.5vw, 2.5rem);
+    font-weight: 300;
+    line-height: 1.15;
+    letter-spacing: var(--tracking-display);
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .menu__footer {
+    display: grid;
+    gap: var(--space-5);
+    padding-block: var(--space-6) var(--space-7);
+  }
+
+  .menu__footer :global(.menu__cta) {
+    width: 100%;
+  }
+
+  .menu__tagline {
+    font-size: var(--text-small);
+    color: var(--fg-muted);
+  }
+</style>

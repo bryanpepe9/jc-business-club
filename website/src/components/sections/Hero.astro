@@ -1,0 +1,167 @@
+---
+import type { SiteContent } from '@/i18n/types';
+import Button from '@/components/ui/Button.astro';
+import ArrowLink from '@/components/ui/ArrowLink.astro';
+import Photo from '@/components/ui/Photo.astro';
+import Pillars from '@/components/ui/Pillars.astro';
+import heroPhoto from '@/assets/photos/hero.jpg';
+
+interface Props {
+  content: SiteContent;
+}
+
+const { hero, brand } = Astro.props.content;
+---
+
+<section class="hero theme-ink" aria-labelledby="hero-title">
+  <div class="container hero__grid">
+    <div class="hero__text">
+      <Pillars class="hero__eyebrow" items={brand.pillars} />
+      <h1 id="hero-title" class="hero__title">
+        {hero.title}
+      </h1>
+      <p class="hero__lead">{hero.lead}</p>
+      <div class="hero__actions">
+        <Button href={hero.primaryCta.href} arrow>
+          {hero.primaryCta.label}
+        </Button>
+        <ArrowLink href={hero.secondaryCta.href} direction="down">
+          {hero.secondaryCta.label}
+        </ArrowLink>
+      </div>
+    </div>
+
+    <Photo
+      class="hero__photo"
+      src={heroPhoto}
+      alt={hero.photo.alt}
+      ratio="4 / 5"
+      sizes="(min-width: 80rem) 31rem, (min-width: 64rem) 38vw, 100vw"
+      priority
+    />
+  </div>
+
+  <div class="container">
+    <ul class="hero__facts" role="list">
+      {hero.facts.map((fact) => (
+        <li>{fact}</li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .hero {
+    background: var(--bg);
+    color: var(--fg);
+    padding-top: clamp(2.5rem, 1rem + 5vw, 5rem);
+  }
+
+  .hero__grid {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  .hero :global(.hero__eyebrow) {
+    color: var(--accent);
+    margin-bottom: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  }
+
+  .hero__title {
+    font-size: var(--text-display);
+    line-height: var(--leading-tight);
+    max-width: 11ch;
+  }
+
+  .hero__lead {
+    margin-top: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    max-width: 38ch;
+    font-size: var(--text-lead);
+    line-height: 1.5;
+    color: var(--fg-muted);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4) var(--space-6);
+    margin-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+  }
+
+  .hero__facts {
+    display: grid;
+    margin-top: clamp(3rem, 2rem + 4vw, 6rem);
+    border-top: var(--hairline) solid var(--line);
+    font-size: var(--text-small);
+    color: var(--fg-muted);
+  }
+
+  .hero__facts li {
+    padding-block: var(--space-4);
+    border-bottom: var(--hairline) solid var(--line);
+  }
+
+  .hero__facts li:last-child {
+    border-bottom: 0;
+  }
+
+  @media (max-width: 39.99rem) {
+    .hero__actions :global(.btn) {
+      width: 100%;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .hero__facts {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .hero__facts li {
+      padding: var(--space-5) var(--space-5) var(--space-6) 0;
+      border-bottom: 0;
+    }
+
+    .hero__facts li + li {
+      padding-left: var(--space-5);
+      border-left: var(--hairline) solid var(--line);
+    }
+  }
+
+  /* Tablet: single column, so a landscape crop keeps the photo in proportion. */
+  @media (min-width: 40rem) and (max-width: 63.99rem) {
+    .hero :global(.hero__photo) {
+      aspect-ratio: 3 / 2;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .hero__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      align-items: end;
+      gap: var(--grid-gap);
+    }
+
+    .hero__text {
+      grid-column: 1 / span 7;
+      padding-bottom: var(--space-2);
+    }
+
+    .hero :global(.hero__photo) {
+      grid-column: 8 / span 5;
+      /* Keep the facts strip inside the first screen on short viewports;
+         the photo crops a little more rather than pushing content down. */
+      width: 100%;
+      max-height: calc(100svh - var(--header-h) - 14rem);
+      min-height: 26rem;
+    }
+
+    .hero {
+      padding-top: clamp(2.5rem, 4vh, 4rem);
+    }
+
+    .hero__facts {
+      margin-top: clamp(2.5rem, 5vh, 4rem);
+    }
+  }
+</style>

@@ -1,0 +1,89 @@
+---
+import type { SiteContent } from '@/i18n/types';
+import Section from '@/components/layout/Section.astro';
+import SectionHeader from '@/components/layout/SectionHeader.astro';
+
+interface Props {
+  content: SiteContent;
+}
+
+const { club } = Astro.props.content;
+---
+
+<Section intro={club.intro} theme="paper" labelledby="club-title">
+  <SectionHeader intro={club.intro} />
+
+  <div class="club layout-grid">
+    <h2 id="club-title" class="club__title t-h2" data-reveal>
+      {club.title}
+    </h2>
+    <div class="club__body" data-reveal>
+      {club.body.map((paragraph) => (
+        <p class="t-lead">{paragraph}</p>
+      ))}
+    </div>
+  </div>
+
+  <ul class="club__principles" role="list" data-reveal>
+    {club.principles.map((principle) => (
+      <li>
+        <h3 class="label">{principle.title}</h3>
+        <p>{principle.text}</p>
+      </li>
+    ))}
+  </ul>
+</Section>
+
+<style>
+  .club__title {
+    max-width: 12ch;
+  }
+
+  .club__body {
+    display: grid;
+    gap: var(--space-5);
+    max-width: var(--measure);
+  }
+
+  .club__body p + p {
+    color: var(--fg-muted);
+  }
+
+  .club__principles {
+    display: grid;
+    gap: var(--space-6);
+    margin-top: var(--section-head-gap);
+  }
+
+  .club__principles li {
+    padding-top: var(--space-5);
+    border-top: var(--hairline) solid var(--line);
+  }
+
+  .club__principles h3 {
+    color: var(--fg);
+  }
+
+  .club__principles p {
+    margin-top: var(--space-3);
+    max-width: 32ch;
+    color: var(--fg-muted);
+  }
+
+  @media (min-width: 48rem) {
+    .club__principles {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--grid-gap);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .club__title {
+      grid-column: 1 / span 5;
+    }
+
+    .club__body {
+      grid-column: 7 / span 6;
+    }
+  }
+</style>

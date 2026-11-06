@@ -1,0 +1,209 @@
+---
+import type { SiteContent } from '@/i18n/types';
+import Wordmark from '@/components/ui/Wordmark.astro';
+import Button from '@/components/ui/Button.astro';
+import MobileMenu from './MobileMenu.astro';
+import LanguageSwitch from '@/components/ui/LanguageSwitch.astro';
+import type { Locale } from '@/config/site';
+
+interface Props {
+  content: SiteContent;
+  alternates: Record<Locale, string>;
+}
+
+const { content, alternates } = Astro.props;
+const { nav, brand, a11y } = content;
+// No need to invite visitors to the page they are already on.
+const onApplyPage = Astro.url.pathname.replace(/\/$/, '') === nav.cta.href;
+---
+
+<header class="site-header theme-ink" data-header>
+  <div class="container site-header__inner">
+    <a class="site-header__brand" href={content.routes.home} aria-label={a11y.homeLink}>
+      <Wordmark text={brand.wordmark} />
+    </a>
+
+    <nav class="site-header__nav" aria-label={a11y.mainNav}>
+      <ul role="list">
+        {nav.items.map((item) => (
+          <li>
+            <a href={item.href}>{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      <LanguageSwitch locale={content.locale} alternates={alternates} label={a11y.languageNav} />
+      {!onApplyPage && (
+        <Button href={nav.cta.href} variant="outline" size="small" class="site-header__cta">
+          {nav.cta.label}
+        </Button>
+      )}
+      <button
+        type="button"
+        class="site-header__menu-button"
+        aria-haspopup="dialog"
+        aria-controls="site-menu"
+        data-menu-open
+      >
+        <span>{a11y.menu}</span>
+        <span class="site-header__menu-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<MobileMenu content={content} alternates={alternates} />
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  if (header) {
+    let ticking = false;
+    const update = () => {
+      header.toggleAttribute('data-scrolled', window.scrollY > 8);
+      ticking = false;
+    };
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      },
+      { passive: true },
+    );
+    update();
+  }
+
+  // Highlight the nav link of the section crossing the middle of the viewport.
+  const links = new Map<string, HTMLAnchorElement>();
+  document.querySelectorAll<HTMLAnchorElement>('.site-header__nav a[href*="#"]').forEach((link) => {
+    links.set(link.hash.slice(1), link);
+  });
+  const sections = [...links.keys()]
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => el !== null);
+
+  if (sections.length > 0 && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          links.get(entry.target.id)?.toggleAttribute('data-active', entry.isIntersecting);
+        }
+      },
+      { rootMargin: '-45% 0px -50% 0px' },
+    );
+    sections.forEach((section) => observer.observe(section));
+  }
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+    background: var(--bg);
+    color: var(--fg);
+    border-bottom: var(--hairline) solid transparent;
+    transition: border-color var(--dur-base) var(--ease-out);
+  }
+
+  .site-header[data-scrolled] {
+    border-bottom-color: var(--line);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    height: var(--header-h);
+  }
+
+  .site-header__brand {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .site-header__nav {
+    display: none;
+  }
+
+  .site-header__nav ul {
+    display: flex;
+    gap: clamp(1.25rem, 2vw, 2.25rem);
+  }
+
+  .site-header__nav a {
+    display: inline-flex;
+    white-space: nowrap;
+    align-items: center;
+    min-height: 2.75rem;
+    font-size: 0.875rem;
+    color: var(--fg-muted);
+    text-decoration: none;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .site-header__nav a:hover,
+  .site-header__nav a[data-active] {
+    color: var(--fg);
+  }
+
+  .site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+  }
+
+  .site-header__actions :global(.site-header__cta) {
+    display: none;
+  }
+
+  /* On the narrowest phones the language links live in the menu and footer. */
+  @media (max-width: 22.49rem) {
+    .site-header__actions :global(.lang-switch) {
+      display: none;
+    }
+  }
+
+  .site-header__menu-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 2.75rem;
+    padding-inline: 0.25rem;
+    margin-inline-end: -0.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--fg);
+  }
+
+  .site-header__menu-icon {
+    position: relative;
+    width: 1.125rem;
+    height: 7px;
+    border-block: var(--hairline) solid currentColor;
+  }
+
+  @media (min-width: 40rem) {
+    .site-header__actions :global(.site-header__cta) {
+      display: inline-flex;
+    }
+  }
+
+  @media (min-width: 82rem) {
+    .site-header__nav {
+      display: block;
+    }
+
+    .site-header__menu-button {
+      display: none;
+    }
+  }
+</style>

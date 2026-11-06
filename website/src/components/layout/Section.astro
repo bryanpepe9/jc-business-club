@@ -1,0 +1,32 @@
+---
+import type { SectionIntro } from '@/i18n/types';
+
+interface Props {
+  intro?: SectionIntro;
+  id?: string;
+  theme?: 'paper' | 'sand' | 'ink' | 'graphite';
+  /** id of the element that names this section (usually its h2). */
+  labelledby?: string;
+  class?: string;
+}
+
+const { intro, id, theme = 'paper', labelledby, class: className } = Astro.props;
+---
+
+<section
+  id={id ?? intro?.id}
+  class:list={['section', `theme-${theme}`, className]}
+  aria-labelledby={labelledby}
+>
+  <div class="container">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .section {
+    background: var(--bg);
+    color: var(--fg);
+    padding-block: var(--section-pad);
+  }
+</style>

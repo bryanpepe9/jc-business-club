@@ -1,0 +1,134 @@
+---
+import type { SiteContent } from '@/i18n/types';
+import Section from '@/components/layout/Section.astro';
+import SectionHeader from '@/components/layout/SectionHeader.astro';
+import Photo from '@/components/ui/Photo.astro';
+import audiencePhoto from '@/assets/photos/audience.jpg';
+
+interface Props {
+  content: SiteContent;
+}
+
+const { audience } = Astro.props.content;
+const lastRole = audience.roles.length - 1;
+---
+
+<Section intro={audience.intro} theme="paper" labelledby="audience-title">
+  <SectionHeader intro={audience.intro} />
+
+  <div class="audience layout-grid">
+    <div class="audience__main">
+      <h2 id="audience-title" class="audience__roles" data-reveal>
+        {audience.roles.map((role, i) => (
+          <span>
+            {role}
+            {i < lastRole && <span class="visually-hidden">, </span>}
+          </span>
+        ))}
+      </h2>
+      <p class="audience__body t-lead" data-reveal>
+        {audience.body}
+      </p>
+    </div>
+
+    <Photo
+      class="audience__photo"
+      src={audiencePhoto}
+      alt={audience.photo.alt}
+      ratio="4 / 5"
+      sizes="(min-width: 80rem) 31rem, (min-width: 64rem) 38vw, 100vw"
+    />
+  </div>
+
+  <div class="sectors" data-reveal>
+    <h3 class="sectors__label label">{audience.sectors.label}</h3>
+    <ul class="sectors__list" role="list">
+      {audience.sectors.items.map((sector) => (
+        <li class="t-h3">{sector}</li>
+      ))}
+    </ul>
+    <p class="sectors__note">{audience.sectors.note}</p>
+  </div>
+</Section>
+
+<style>
+  .audience__roles > span {
+    display: block;
+    padding-block: 0.12em 0.16em;
+    border-bottom: var(--hairline) solid var(--line);
+    font-size: clamp(2.5rem, 1.6rem + 3.8vw, 4.75rem);
+    line-height: 1.1;
+  }
+
+  .audience__body {
+    margin-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+    max-width: 44ch;
+    color: var(--fg-muted);
+  }
+
+  .sectors {
+    margin-top: var(--section-pad);
+  }
+
+  .sectors__label {
+    color: var(--fg-muted);
+  }
+
+  .sectors__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: var(--space-5);
+    border-top: var(--hairline) solid var(--line);
+  }
+
+  .sectors__list li {
+    padding: var(--space-5) var(--space-4) var(--space-5) 0;
+    border-bottom: var(--hairline) solid var(--line);
+    overflow-wrap: normal;
+    hyphens: none;
+  }
+
+  .sectors__list li:nth-child(even) {
+    padding-left: var(--space-4);
+    border-left: var(--hairline) solid var(--line);
+  }
+
+  .sectors__note {
+    margin-top: var(--space-5);
+    max-width: 50ch;
+    font-size: var(--text-small);
+    color: var(--fg-muted);
+  }
+
+  @media (min-width: 40rem) and (max-width: 63.99rem) {
+    .audience :global(.audience__photo) {
+      aspect-ratio: 3 / 2;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .sectors__list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border-bottom: var(--hairline) solid var(--line);
+    }
+
+    .sectors__list li {
+      padding: var(--space-6) var(--space-5) var(--space-6) 0;
+      border-bottom: 0;
+    }
+
+    .sectors__list li + li {
+      padding-left: var(--space-5);
+      border-left: var(--hairline) solid var(--line);
+    }
+
+    .audience__main {
+      grid-column: 1 / span 6;
+      align-self: center;
+    }
+
+    .audience :global(.audience__photo) {
+      grid-column: 8 / span 5;
+    }
+  }
+</style>

@@ -1,0 +1,141 @@
+---
+/**
+ * One labelled form control (input, textarea or select) with hint, optional
+ * character counter and an error slot that the client script also fills.
+ */
+import type { HTMLAttributes } from 'astro/types';
+import type { FieldCopy } from '@/i18n/types';
+
+interface Props {
+  name: string;
+  copy: FieldCopy;
+  as?: 'input' | 'textarea' | 'select';
+  type?: HTMLAttributes<'input'>['type'];
+  autocomplete?: HTMLAttributes<'input'>['autocomplete'];
+  inputmode?: HTMLAttributes<'input'>['inputmode'];
+  maxlength?: number;
+  rows?: number;
+  value?: string;
+  options?: { value: string; label: string }[];
+  placeholderOption?: string;
+  optional?: boolean;
+  optionalLabel?: string;
+  /** Resolved error message (server-rendered state). */
+  error?: string;
+  errorPrefix: string;
+  /** Counter template, e.g. "{count} de {max} caracteres". */
+  counter?: string;
+  half?: boolean;
+  /** Shown only for a given value of another field (see the form script). */
+  conditional?: { active: boolean };
+}
+
+const {
+  name,
+  copy,
+  as = 'input',
+  type = 'text',
+  autocomplete,
+  inputmode,
+  maxlength,
+  rows = 5,
+  value = '',
+  options = [],
+  placeholderOption,
+  optional = false,
+  optionalLabel,
+  error,
+  errorPrefix,
+  counter,
+  half = false,
+  conditional,
+} = Astro.props;
+
+const id = `field-${name}`;
+const hintId = copy.hint ? `${id}-hint` : undefined;
+const errorId = `${id}-error`;
+const describedBy = [hintId, errorId].filter(Boolean).join(' ');
+const shared = {
+  id,
+  name,
+  'aria-describedby': describedBy,
+  'aria-invalid': error ? ('true' as const) : undefined,
+  // Conditional fields are validated by script/server only: a native
+  // `required` would block no-JS visitors who did not pick "Outro".
+  required: !optional && !conditional,
+};
+const counterText =
+  counter && maxlength
+    ? counter.replace('{count}', String(value.length)).replace('{max}', String(maxlength))
+    : undefined;
+---
+
+<div
+  class:list={['field', { 'field--half': half }]}
+  data-field={name}
+  data-invalid={error ? '' : undefined}
+  data-conditional={conditional ? '' : undefined}
+  data-active={conditional?.active ? '' : undefined}
+>
+  <div class="field__head">
+    <label class="field__label" for={id}>
+      {copy.label}
+      {optional && optionalLabel && <span class="field__optional">{` (${optionalLabel})`}</span>}
+    </label>
+    {copy.hint && (
+      <p class="field__hint" id={hintId}>
+        {copy.hint}
+      </p>
+    )}
+  </div>
+
+  {as === 'textarea' ? (
+    <textarea
+      class="field__control field__control--textarea"
+      rows={rows}
+      maxlength={maxlength}
+      set:text={value}
+      {...shared}
+    />
+  ) : as === 'select' ? (
+    <select class="field__control field__control--select" {...shared}>
+      {placeholderOption && (
+        <option value="" selected={!value}>
+          {placeholderOption}
+        </option>
+      )}
+      {options.map((option) => (
+        <option value={option.value} selected={option.value === value}>
+          {option.label}
+        </option>
+      ))}
+    </select>
+  ) : (
+    <input
+      class="field__control"
+      type={type}
+      autocomplete={autocomplete}
+      inputmode={inputmode}
+      maxlength={maxlength}
+      value={value}
+      {...shared}
+    />
+  )}
+
+  <div class="field__foot">
+    {counterText && (
+      <p class="field__counter" aria-hidden="true" data-counter={counter} data-max={maxlength}>
+        {counterText}
+      </p>
+    )}
+
+    <p class="field__error" id={errorId} data-error data-prefix={errorPrefix}>
+      {error && (
+        <>
+          <span class="visually-hidden">{errorPrefix} </span>
+          {error}
+        </>
+      )}
+    </p>
+  </div>
+</div>

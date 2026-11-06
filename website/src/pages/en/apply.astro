@@ -1,0 +1,12 @@
+---
+// On demand: per-visit submission id and timestamp, and the no-JS action result.
+export const prerender = false;
+
+import { actions } from 'astro:actions';
+import ApplyPage from '@/views/ApplyPage.astro';
+
+const result = Astro.getActionResult(actions.apply);
+Astro.response.headers.set('Cache-Control', 'no-store');
+---
+
+<ApplyPage locale="en" result={result} />

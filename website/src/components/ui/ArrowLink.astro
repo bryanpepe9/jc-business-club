@@ -1,0 +1,60 @@
+---
+import Arrow from './Arrow.astro';
+
+interface Props {
+  href: string;
+  direction?: 'right' | 'up-right' | 'down';
+  external?: boolean;
+  newTabLabel?: string;
+  class?: string;
+}
+
+const { href, direction = 'right', external = false, newTabLabel, class: className } = Astro.props;
+---
+
+<a
+  class:list={['arrow-link', className]}
+  href={href}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener noreferrer' : undefined}
+>
+  <span class="arrow-link__text">
+    <slot />
+  </span>
+  {external && newTabLabel && <span class="visually-hidden">{newTabLabel}</span>}
+  <Arrow direction={direction} />
+</a>
+
+<style>
+  .arrow-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-height: 2.75rem;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .arrow-link__text {
+    background-image: linear-gradient(var(--accent-decor), var(--accent-decor));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 100% 1px;
+    padding-bottom: 0.25rem;
+    transition: background-size var(--dur-base) var(--ease-out);
+  }
+
+  .arrow-link:hover .arrow-link__text {
+    background-image: linear-gradient(currentColor, currentColor);
+  }
+
+  /* translateX runs in the arrow's rotated space, so every direction
+     nudges forward along its own axis. */
+  .arrow-link:hover :global(.arrow) {
+    transform: translateX(3px);
+  }
+</style>

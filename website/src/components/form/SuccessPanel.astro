@@ -1,0 +1,59 @@
+---
+/**
+ * Confirmation shown after a successful submission. Rendered by the server
+ * (no-JS path) and cloned from a <template> by the client script.
+ */
+import type { SiteContent } from '@/i18n/types';
+import type { DeliveryMode } from '@/lib/application/delivery';
+import ArrowLink from '@/components/ui/ArrowLink.astro';
+
+interface Props {
+  copy: SiteContent['application']['success'];
+  name?: string;
+  mode?: DeliveryMode;
+}
+
+const { copy, name, mode } = Astro.props;
+---
+
+<div class="success" data-success>
+  <h2 class="success__title t-h2" tabindex="-1" data-success-title>
+    {copy.title}
+  </h2>
+  <p class="success__greeting t-lead" data-greeting={copy.greeting} hidden={!name}>
+    {name ? copy.greeting.replace('{name}', name) : ''}
+  </p>
+  <p class="success__body t-lead">{copy.body}</p>
+  <p class="success__dev" data-dev hidden={mode !== 'dev'}>
+    {copy.devNotice}
+  </p>
+  <ArrowLink href={copy.back.href}>{copy.back.label}</ArrowLink>
+</div>
+
+<style>
+  .success {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-4);
+    padding-block: var(--space-6);
+    border-top: var(--hairline) solid var(--line);
+  }
+
+  .success__title:focus {
+    outline: none;
+  }
+
+  .success__body {
+    color: var(--fg-muted);
+  }
+
+  .success__dev {
+    padding: var(--space-3) var(--space-4);
+    border: var(--hairline) dashed var(--field-border);
+    font-size: var(--text-small);
+  }
+
+  .success :global(.arrow-link) {
+    margin-top: var(--space-4);
+  }
+</style>

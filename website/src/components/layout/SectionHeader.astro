@@ -1,0 +1,45 @@
+---
+import type { SectionIntro } from '@/i18n/types';
+
+/**
+ * Editorial section index: a full-width hairline, then "01  O clube".
+ * The recurring structural motif of the site.
+ */
+interface Props {
+  intro: SectionIntro;
+  class?: string;
+}
+
+const { intro, class: className } = Astro.props;
+---
+
+<div class:list={['section-header', className]} data-reveal>
+  <span class="section-header__index" aria-hidden="true">
+    {intro.index}
+  </span>
+  <span class="section-header__label label">{intro.label}</span>
+</div>
+
+<style>
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-5);
+    padding-top: var(--space-4);
+    border-top: var(--hairline) solid var(--line);
+    margin-bottom: var(--section-head-gap);
+  }
+
+  .section-header__index {
+    font-family: var(--font-sans);
+    font-size: var(--text-label);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: var(--tracking-label);
+    color: var(--accent);
+  }
+
+  .section-header__label {
+    color: var(--fg-muted);
+  }
+</style>

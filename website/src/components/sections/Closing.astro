@@ -1,0 +1,41 @@
+---
+import type { SiteContent } from '@/i18n/types';
+import Button from '@/components/ui/Button.astro';
+
+interface Props {
+  content: SiteContent;
+}
+
+const { closing } = Astro.props.content;
+---
+
+<section class="closing theme-paper" aria-labelledby="closing-title">
+  <div class="container">
+    <h2 id="closing-title" class="closing__statement" data-reveal>
+      {closing.statement}
+    </h2>
+    <div class="closing__action" data-reveal>
+      <Button href={closing.cta.href} arrow>
+        {closing.cta.label}
+      </Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .closing {
+    background: var(--bg);
+    color: var(--fg);
+    padding-block: var(--section-pad);
+  }
+
+  .closing__statement {
+    max-width: 15ch;
+    font-size: clamp(2.75rem, 1.6rem + 5vw, 6rem);
+    line-height: 1.04;
+  }
+
+  .closing__action {
+    margin-top: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+  }
+</style>
