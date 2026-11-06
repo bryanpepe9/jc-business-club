@@ -1,7 +1,7 @@
 ---
 /**
- * Media mentions. Renders only the items that have a verified article URL;
- * renders nothing at all until at least one exists.
+ * Media mentions. Items with a verified article URL render as external links;
+ * items without one (pending the link) render as plain text: outlet + headline.
  */
 import type { SiteContent } from '@/i18n/types';
 import Arrow from '@/components/ui/Arrow.astro';
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const { press, newTabLabel, locale } = Astro.props;
-const items = press.items.filter((item) => item.url);
+const items = press.items;
 
 const formatDate = (iso: string) =>
   new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long', year: 'numeric' }).format(
@@ -30,20 +30,29 @@ const formatDate = (iso: string) =>
     <ul class="press__list" role="list">
       {items.map((item) => (
         <li>
-          <a class="press__item" href={item.url} target="_blank" rel="noopener noreferrer">
-            <span class="press__outlet label">{item.outlet}</span>
-            <span class="press__headline" lang={item.lang}>
-              {item.headline}
-            </span>
-            <span class="press__meta">
-              {item.date && <time datetime={item.date}>{formatDate(item.date)}</time>}
-              <span class="press__read">
-                {press.readLabel}
-                <span class="visually-hidden"> {newTabLabel}</span>
-                <Arrow direction="up-right" />
+          {item.url ? (
+            <a class="press__item" href={item.url} target="_blank" rel="noopener noreferrer">
+              <span class="press__outlet label">{item.outlet}</span>
+              <span class="press__headline" lang={item.lang}>
+                {item.headline}
               </span>
-            </span>
-          </a>
+              <span class="press__meta">
+                {item.date && <time datetime={item.date}>{formatDate(item.date)}</time>}
+                <span class="press__read">
+                  {press.readLabel}
+                  <span class="visually-hidden"> {newTabLabel}</span>
+                  <Arrow direction="up-right" />
+                </span>
+              </span>
+            </a>
+          ) : (
+            <div class="press__item">
+              <span class="press__outlet label">{item.outlet}</span>
+              <span class="press__headline" lang={item.lang}>
+                {item.headline}
+              </span>
+            </div>
+          )}
         </li>
       ))}
     </ul>
@@ -106,7 +115,7 @@ const formatDate = (iso: string) =>
     gap: 0.5rem;
   }
 
-  .press__item:hover .press__headline {
+  a.press__item:hover .press__headline {
     color: var(--fg-muted);
   }
 

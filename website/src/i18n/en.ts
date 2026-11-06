@@ -158,8 +158,24 @@ export const en: SiteContent = {
     title: 'In the media',
     lead: 'Our work in business rounds and in connecting projects with investors has been featured in several outlets.',
     readLabel: 'Read the article (in Portuguese)',
-    // Headlines stay in Portuguese. Items render only once a verified `url` is added.
+    // Headlines stay in Portuguese. Items with a verified `url` render as links;
+    // the deck's mentions show as text until their links are confirmed.
     items: [
+      {
+        outlet: 'Notícias Agrícolas',
+        headline:
+          'Conversa de Cerca Podcast #145 – Evento foca em conectar investidores a projetos do agronegócio e pode ser modelo para superar momentos de crise',
+        url: 'https://www.noticiasagricolas.com.br/videos/agronegocio/387845-conversa-de-cerca-podcast-145-evento-foca-em-conectar-investidores-a-projetos-do-agronegocio-e-pode-ser-modelo-para-superar-momentos-de-crise.html',
+        date: '2024-10-30',
+        lang: 'pt-BR',
+      },
+      {
+        outlet: 'AgFeed',
+        headline: 'Nascida no mundo da moda, JC Capital vai até a Arábia buscar investidores para o agro',
+        url: 'https://agfeed.com.br/financas/nascida-no-mundo-da-moda-jc-capital-vai-ate-a-arabia-buscar-investidores-para-o-agro',
+        date: '2024-02-05',
+        lang: 'pt-BR',
+      },
       {
         outlet: 'Gazeta da Semana',
         headline: 'Elementos para uma rodada de negócios de sucesso',

@@ -50,6 +50,9 @@ the owner before launch.
 | 07 price            | R$ 990/mês                                                                                                                                                                                          | Deck s.9 · Verbatim                | Confirmed by owner                                    |
 | 07 inclusions       | 2 cafés da manhã por mês · Encontros presenciais de aproximadamente quatro horas · Relacionamento com empresários, investidores e lideranças · Aproximações com potenciais parceiros e investidores | Deck s.3, s.5, s.9 · Adapted       | Combines deck facts; no new benefits                  |
 | 07 statement        | Uma rede construída com curadoria, confiança e propósito de gerar negócios.                                                                                                                         | Deck s.9 · Verbatim                |                                                       |
+| 05 press            | Reconhecimento na mídia + lead                                                                                                                                                                      | Deck s.8 · Verbatim                |                                                       |
+| 05 press (linked)   | Notícias Agrícolas, 30/10/2024 (Conversa de Cerca #145) · AgFeed, 05/02/2024 (JC Capital / Jennifer Chen)                                                                                           | Verified article URLs              | Added with owner approval; headlines as published     |
+| 05 press (text)     | Gazeta da Semana · Turismo em Foco · Agromais / UOL · MT Agora: outlet + headline only                                                                                                              | Deck s.8 · Verbatim                | **⚑ Links pending** from Jennifer                     |
 | Closing             | Grandes negócios começam com grandes conexões.                                                                                                                                                      | Deck s.10 · Verbatim               |                                                       |
 | Meta description    | Rede selecionada de empresários, investidores e lideranças. Dois cafés da manhã presenciais por mês, sem palestras: relacionamento, oportunidades e negócios.                                       | Deck s.1, 3, 4 · Adapted           |                                                       |
 
@@ -87,7 +90,6 @@ fields for them, so they can be added once confirmed:
 - Breakfast venue, dates or schedule
 - Commission or success-fee arrangements
 - Founder biography, JC Capital role, headshot
-- Press mentions (hidden until each article has a verified URL)
 - Testimonials, member counts, statistics, partner logos, deal outcomes — none exist and none were invented
 
 ## English version (`src/i18n/en.ts`)

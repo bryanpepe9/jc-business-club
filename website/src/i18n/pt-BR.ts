@@ -164,8 +164,22 @@ export const ptBR: SiteContent = {
     title: 'Reconhecimento na mídia', // deck, slide 8
     lead: 'A atuação em rodadas de negócios e conexão entre projetos e investidores já foi destaque em diferentes veículos.',
     readLabel: 'Ler matéria',
-    // Items render only once a verified `url` is added.
+    // Items with a verified `url` render as links; the deck's mentions (slide 8)
+    // show as text until their links are confirmed.
     items: [
+      {
+        outlet: 'Notícias Agrícolas',
+        headline:
+          'Conversa de Cerca Podcast #145 – Evento foca em conectar investidores a projetos do agronegócio e pode ser modelo para superar momentos de crise',
+        url: 'https://www.noticiasagricolas.com.br/videos/agronegocio/387845-conversa-de-cerca-podcast-145-evento-foca-em-conectar-investidores-a-projetos-do-agronegocio-e-pode-ser-modelo-para-superar-momentos-de-crise.html',
+        date: '2024-10-30',
+      },
+      {
+        outlet: 'AgFeed',
+        headline: 'Nascida no mundo da moda, JC Capital vai até a Arábia buscar investidores para o agro',
+        url: 'https://agfeed.com.br/financas/nascida-no-mundo-da-moda-jc-capital-vai-ate-a-arabia-buscar-investidores-para-o-agro',
+        date: '2024-02-05',
+      },
       { outlet: 'Gazeta da Semana', headline: 'Elementos para uma rodada de negócios de sucesso' },
       {
         outlet: 'Turismo em Foco',

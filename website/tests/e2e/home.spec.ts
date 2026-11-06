@@ -30,10 +30,17 @@ test.describe('home page', () => {
     }
   });
 
-  test('does not render unconfirmed content', async ({ page }) => {
+  test('press: linked articles open in a new tab, pending ones are plain text', async ({ page }) => {
     await page.goto('/');
-    // Press mentions need verified URLs; none are configured yet.
-    await expect(page.getByText('Reconhecimento na mídia')).toHaveCount(0);
+    const press = page.locator('.press');
+    await expect(press.getByRole('heading', { name: 'Reconhecimento na mídia' })).toBeVisible();
+    const links = press.locator('a.press__item');
+    await expect(links).toHaveCount(2);
+    for (const link of await links.all()) {
+      await expect(link).toHaveAttribute('target', '_blank');
+      await expect(link).toHaveAttribute('href', /^https:\/\//);
+    }
+    await expect(press.locator('div.press__item')).toHaveCount(4);
   });
 
   test('skip link moves focus to the main content', async ({ page, isMobile }) => {
