@@ -25,7 +25,7 @@ export const en: SiteContent = {
     wordmark: 'JC BUSINESS CLUB',
     tagline: 'Connections that drive business.', // approved by owner
     pillars: ['Relationships', 'Opportunities', 'Business'],
-    closingLine: 'Great business begins with great connections.',
+    closingLine: 'Qualified connections. Opportunities that turn into business.',
   },
 
   a11y: {
@@ -207,7 +207,7 @@ export const en: SiteContent = {
     role: 'Founder of JC Business Club',
     // Translation of the deck quote — pending Jennifer's approval.
     quote:
-      'When we bring the right people to the table, projects move forward with greater ease and confidence for everyone.',
+      'When we bring the right people to the table, projects move forward with greater speed, ease and confidence for everyone.',
   },
 
   membership: {
@@ -232,7 +232,7 @@ export const en: SiteContent = {
   },
 
   closing: {
-    statement: 'Great business begins with great connections.',
+    statement: 'Qualified connections. Opportunities that turn into business.',
     cta: { label: 'Apply for membership', href: routes.apply },
   },
 

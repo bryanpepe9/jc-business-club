@@ -27,7 +27,7 @@ export const ptBR: SiteContent = {
     wordmark: 'JC BUSINESS CLUB',
     tagline: 'Conexões que geram negócios.', // deck, slide 1
     pillars: ['Relacionamento', 'Oportunidades', 'Negócios'], // deck, slide 1
-    closingLine: 'Grandes negócios começam com grandes conexões.', // deck, slide 10
+    closingLine: 'Conexões qualificadas. Oportunidades que se transformam em negócios.', // Jennifer, 2026-11-06 (replaces deck slide 10)
   },
 
   a11y: {
@@ -209,7 +209,7 @@ export const ptBR: SiteContent = {
     role: 'Fundadora do JC Business Club',
     // affiliation, bio and photo: pending owner approval.
     quote:
-      'Quando reunimos as pessoas certas à mesa, os projetos avançam com mais facilidade e segurança para todos.', // deck, slide 2
+      'Quando reunimos as pessoas certas à mesa, os projetos avançam com mais agilidade, facilidade e segurança para todos.', // deck, slide 2
   },
 
   membership: {
@@ -228,7 +228,7 @@ export const ptBR: SiteContent = {
   },
 
   closing: {
-    statement: 'Grandes negócios começam com grandes conexões.',
+    statement: 'Conexões qualificadas. Oportunidades que se transformam em negócios.',
     cta: { label: 'Solicitar participação', href: routes.apply },
   },
 
