@@ -32,6 +32,11 @@ const { price } = membership;
         </span>
         <span class="visually-hidden">{price.spoken}</span>
       </p>
+      {price.approx && (
+        <p class="membership__approx" aria-hidden="true">
+          {price.approx}
+        </p>
+      )}
       <ul class="membership__inclusions" role="list">
         {membership.inclusions.map((item) => (
           <li>{item}</li>
@@ -82,6 +87,12 @@ const { price } = membership;
   }
 
   /* Flex drops the whitespace between amount and period. */
+  .membership__approx {
+    margin-top: calc(-1 * var(--space-2));
+    font-size: var(--text-small);
+    color: var(--fg-muted);
+  }
+
   .membership__amount {
     display: inline-flex;
     align-items: baseline;

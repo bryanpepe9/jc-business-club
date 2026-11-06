@@ -102,7 +102,7 @@ headlines match between languages.
 | All other copy                             | **⚑ Review** by the owner (tone and accuracy)                                                             |
 | Jennifer's quote, translated               | **⚑ Confirm** with Jennifer                                                                               |
 | Press headlines                            | Kept in Portuguese (marked `lang="pt-BR"`); never translated                                              |
-| Price                                      | US$ 180/month on the English site (owner decision); R$ 990/mês on the Portuguese site                     |
+| Price                                      | R$ 990/month on both sites; the English site adds “About US$ 180 per month” as a guide (owner decision)   |
 | Meeting language                           | Deliberately not mentioned until confirmed                                                                |
 | English phone rule                         | The English form requires a country code (+1, +55…), so a US number is never mistaken for a Brazilian one |
 | Privacy policy (EN)                        | **⚑ Legal review**; decide whether the Portuguese version prevails in case of discrepancy                 |

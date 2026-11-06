@@ -174,6 +174,8 @@ export interface SiteContent {
       period: string;
       /** Full spoken form for screen readers, e.g. "990 reais por mês". */
       spoken: string;
+      /** Optional guide in another currency, e.g. "About US$ 180". */
+      approx?: string;
     };
     inclusions: string[];
     statement: string;
