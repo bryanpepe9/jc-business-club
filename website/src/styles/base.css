@@ -65,7 +65,8 @@
   html {
     color-scheme: light;
     scroll-behavior: smooth;
-    scroll-padding-top: calc(var(--header-h) + var(--space-5));
+    /* Anchor jumps land each section's top edge right under the sticky header. */
+    scroll-padding-top: var(--header-h);
   }
 
   body {
@@ -111,9 +112,6 @@
     outline-offset: 3px;
   }
 
-  :target {
-    scroll-margin-top: calc(var(--header-h) + var(--space-5));
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
