@@ -172,7 +172,9 @@ describe('copy', () => {
   });
 
   it('keeps facts identical across languages', () => {
-    expect(en.membership.price.amount).toBe(ptBR.membership.price.amount);
+    // Each language shows its own currency: R$ 990 (pt-BR), US$ 180 (en), set by the owner.
+    expect(ptBR.membership.price.amount).toBe('R$ 990');
+    expect(en.membership.price.amount).toBe('US$ 180');
     expect(en.audience.sectors.items).toHaveLength(ptBR.audience.sectors.items.length);
     expect(en.benefits.items).toHaveLength(ptBR.benefits.items.length);
     expect(en.track.photos).toHaveLength(ptBR.track.photos.length);

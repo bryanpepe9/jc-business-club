@@ -197,9 +197,10 @@ export const en: SiteContent = {
     title: 'Join the first group of JC Business Club.',
     price: {
       label: 'Monthly fee',
-      amount: 'R$ 990',
+      // English-speaking audience: price in US dollars, set by the owner.
+      amount: 'US$ 180',
       period: '/month',
-      spoken: '990 Brazilian reais per month',
+      spoken: '180 US dollars per month',
     },
     inclusions: [
       '2 breakfasts a month',

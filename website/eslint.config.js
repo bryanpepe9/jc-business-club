@@ -2,7 +2,7 @@ import astro from 'eslint-plugin-astro';
 import tseslint from 'typescript-eslint';
 
 export default [
-  { ignores: ['dist/', '.astro/', '.wrangler/', 'node_modules/'] },
+  { ignores: ['dist/', '.astro/', '.wrangler/', '.vercel/', 'node_modules/'] },
   ...tseslint.configs.recommended,
   ...astro.configs.recommended,
   ...astro.configs['jsx-a11y-recommended'],
