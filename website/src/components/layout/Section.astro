@@ -31,5 +31,24 @@ const { intro, id, theme = 'paper', labelledby, class: className } = Astro.props
     /* Nav jumps skip most of the top padding, so the section's index line
        lands a short gap below the sticky header instead of after empty space. */
     scroll-margin-top: calc(var(--space-6) - var(--section-pad));
+    /* After a nav jump, even a short section fills the screen down to the
+       bottom edge, so the next section's empty top padding never shows. */
+    min-height: calc(100vh - var(--header-h) - var(--space-6) + var(--section-pad));
+    min-height: calc(100svh - var(--header-h) - var(--space-6) + var(--section-pad));
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Short sections whose content is centred vertically: the centring supplies
+     the space below, so the usual bottom padding would only push it upward. */
+  .section--centered {
+    padding-bottom: var(--space-6);
+  }
+
+  .section > .container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
   }
 </style>

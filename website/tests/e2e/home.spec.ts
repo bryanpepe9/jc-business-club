@@ -37,19 +37,23 @@ test.describe('home page', () => {
       .evaluateAll((links) => links.map((link) => (link as HTMLAnchorElement).hash.slice(1)));
     expect(ids.length).toBeGreaterThan(3);
     for (const id of new Set(ids)) {
-      const gap = await page.evaluate(async (target) => {
+      const { gap, below } = await page.evaluate(async (target) => {
         document.documentElement.style.scrollBehavior = 'auto';
         document.getElementById(target)!.scrollIntoView();
         await new Promise((r) => requestAnimationFrame(r));
         const section = document.getElementById(target)!;
         const content = section.firstElementChild as HTMLElement;
         const header = document.querySelector('header')!.getBoundingClientRect().bottom;
-        return (
-          content.getBoundingClientRect().top + parseFloat(getComputedStyle(content).paddingTop) - header
-        );
+        return {
+          gap:
+            content.getBoundingClientRect().top + parseFloat(getComputedStyle(content).paddingTop) - header,
+          // Space between the section's bottom edge and the screen's (should be none).
+          below: innerHeight - section.getBoundingClientRect().bottom,
+        };
       }, id);
       expect(gap, `#${id}`).toBeGreaterThanOrEqual(0);
       expect(gap, `#${id}`).toBeLessThan(80);
+      expect(below, `#${id} fills the screen`).toBeLessThanOrEqual(1);
     }
   });
 

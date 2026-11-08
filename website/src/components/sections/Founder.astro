@@ -17,7 +17,7 @@ const { founder, a11y } = Astro.props.content;
 const affiliation = founder.affiliation;
 ---
 
-<Section intro={founder.intro} theme="paper" labelledby="founder-title">
+<Section intro={founder.intro} theme="paper" labelledby="founder-title" class="section--centered">
   <SectionHeader intro={founder.intro} />
 
   <div class="founder layout-grid">
@@ -54,6 +54,11 @@ const affiliation = founder.affiliation;
 </Section>
 
 <style>
+  /* Short section: centre the name and quote in the space the section fills. */
+  .founder {
+    margin-block: auto;
+  }
+
   .founder__role {
     margin-top: var(--space-4);
     color: var(--fg-muted);
