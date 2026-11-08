@@ -18,7 +18,7 @@ export const ptBR: SiteContent = {
   meta: {
     title: 'JC Business Club — Conexões que geram negócios',
     description:
-      'Rede selecionada de empresários, investidores e lideranças. Dois cafés da manhã presenciais por mês, sem palestras: relacionamento, oportunidades e negócios.',
+      'Rede selecionada de empresários, investidores e lideranças. Um café da manhã presencial por mês, sem palestras: relacionamento, oportunidades e negócios.',
     ogImageAlt: 'JC Business Club — Conexões que geram negócios.',
   },
 
@@ -57,10 +57,10 @@ export const ptBR: SiteContent = {
   hero: {
     title: 'Conexões que geram negócios.',
     // From the brief's positioning, using the deck's "selecionada".
-    lead: 'Uma rede privada e selecionada que reúne empresários, investidores e lideranças para desenvolver relacionamentos e oportunidades de negócio.',
+    lead: 'Uma rede privada e selecionada que reúne empresários, investidores e lideranças para desenvolver relacionamentos e oportunidades de negócios.',
     primaryCta: { label: 'Quero fazer parte', href: routes.apply },
     secondaryCta: { label: 'Conheça o clube', href: '#o-clube' },
-    facts: ['2 cafés da manhã por mês', 'Encontros presenciais', 'Sem palestras ou apresentações'],
+    facts: ['1 café da manhã por mês', 'Encontros presenciais', 'Sem palestras ou apresentações'],
     photo: {
       alt: 'Empresários sentados lado a lado à mesa, atentos à conversa durante um encontro de negócios.',
     },
@@ -92,9 +92,9 @@ export const ptBR: SiteContent = {
 
   experience: {
     intro: { id: 'experiencia', index: '02', label: 'A experiência' },
-    numeral: '2',
-    title: 'cafés da manhã por mês', // deck, slide 3
-    body: 'Encontros presenciais de aproximadamente quatro horas, em ambiente reservado e agradável, com tempo para boas conversas, troca de experiências e desenvolvimento das oportunidades.',
+    numeral: '1',
+    title: 'café da manhã por mês', // deck, slide 3
+    body: 'Encontro presencial de aproximadamente quatro horas, em ambiente reservado e agradável, com tempo para boas conversas, troca de experiências e desenvolvimento das oportunidades.',
     details: [
       { term: 'Formato', description: 'Presencial' },
       { term: 'Duração', description: 'Aproximadamente quatro horas' },
@@ -139,7 +139,7 @@ export const ptBR: SiteContent = {
       },
       {
         title: 'Encontros exclusivos',
-        text: 'Dois cafés da manhã por mês, com curadoria e proximidade.',
+        text: 'Um café da manhã por mês, com curadoria e proximidade.',
       },
     ],
   },
@@ -217,8 +217,8 @@ export const ptBR: SiteContent = {
     title: 'Faça parte do primeiro grupo do JC Business Club.', // deck, slide 9
     price: { label: 'Mensalidade', amount: 'R$ 990', period: '/mês', spoken: '990 reais por mês' },
     inclusions: [
-      '2 cafés da manhã por mês',
-      'Encontros presenciais de aproximadamente quatro horas',
+      '1 café da manhã por mês',
+      'Encontro presencial de aproximadamente quatro horas',
       'Relacionamento com empresários, investidores e lideranças',
       'Aproximações com potenciais parceiros e investidores',
     ],
@@ -238,7 +238,7 @@ export const ptBR: SiteContent = {
     meta: {
       title: 'Solicitar participação',
       description:
-        'Solicite sua participação como membro fundador do JC Business Club: dois cafés da manhã presenciais por mês com empresários, investidores e lideranças.',
+        'Solicite sua participação como membro fundador do JC Business Club: um café da manhã presencial por mês com empresários, investidores e lideranças.',
     },
     eyebrow: 'Membro fundador',
     title: 'Solicitar participação',

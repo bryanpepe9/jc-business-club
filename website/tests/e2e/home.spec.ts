@@ -16,7 +16,7 @@ test.describe('home page', () => {
     await page.goto('/');
     const membership = page.locator('#membro-fundador');
     await expect(membership.getByText('R$ 990')).toBeVisible();
-    await expect(membership.getByText('2 cafés da manhã por mês')).toBeVisible();
+    await expect(membership.getByText('1 café da manhã por mês')).toBeVisible();
   });
 
   test('every navigation anchor points to a section on the page', async ({ page }) => {

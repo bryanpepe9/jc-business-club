@@ -16,7 +16,7 @@ export const en: SiteContent = {
   meta: {
     title: 'JC Business Club — Connections that drive business',
     description:
-      'A selected network of entrepreneurs, investors and leaders. Two in-person breakfasts a month, no lectures: relationships, opportunities and business.',
+      'A selected network of entrepreneurs, investors and leaders. One in-person breakfast a month, no lectures: relationships, opportunities and business.',
     ogImageAlt: 'JC Business Club — Connections that drive business.',
   },
 
@@ -57,7 +57,7 @@ export const en: SiteContent = {
     lead: 'A private, selected network that brings together entrepreneurs, investors and leaders to build relationships and business opportunities.',
     primaryCta: { label: 'Apply to join', href: routes.apply },
     secondaryCta: { label: 'Discover the club', href: '#the-club' },
-    facts: ['2 breakfasts a month', 'In-person meetings', 'No lectures or presentations'],
+    facts: ['1 breakfast a month', 'In-person meetings', 'No lectures or presentations'],
     photo: {
       alt: 'Business people seated side by side at a table, following the conversation at a business meeting.',
     },
@@ -88,9 +88,9 @@ export const en: SiteContent = {
 
   experience: {
     intro: { id: 'experience', index: '02', label: 'The experience' },
-    numeral: '2',
-    title: 'breakfasts a month',
-    body: 'In-person meetings of about four hours, in a private and welcoming setting, with time for good conversation, exchanging experience and developing opportunities.',
+    numeral: '1',
+    title: 'breakfast a month',
+    body: 'An in-person meeting of about four hours, in a private and welcoming setting, with time for good conversation, exchanging experience and developing opportunities.',
     details: [
       { term: 'Format', description: 'In person' },
       { term: 'Duration', description: 'About four hours' },
@@ -134,7 +134,7 @@ export const en: SiteContent = {
       },
       {
         title: 'Exclusive meetings',
-        text: 'Two breakfasts a month, curated and close-knit.',
+        text: 'One breakfast a month, curated and close-knit.',
       },
     ],
   },
@@ -222,8 +222,8 @@ export const en: SiteContent = {
       approx: 'About US$ 180 per month',
     },
     inclusions: [
-      '2 breakfasts a month',
-      'In-person meetings of about four hours',
+      '1 breakfast a month',
+      'An in-person meeting of about four hours',
       'Relationships with entrepreneurs, investors and leaders',
       'Introductions to potential partners and investors',
     ],
@@ -242,7 +242,7 @@ export const en: SiteContent = {
     meta: {
       title: 'Apply for membership',
       description:
-        'Apply to become a founding member of JC Business Club: two in-person breakfasts a month with entrepreneurs, investors and leaders.',
+        'Apply to become a founding member of JC Business Club: one in-person breakfast a month with entrepreneurs, investors and leaders.',
     },
     eyebrow: 'Founding member',
     title: 'Apply for membership',
