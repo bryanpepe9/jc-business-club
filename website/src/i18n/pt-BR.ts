@@ -184,6 +184,13 @@ export const ptBR: SiteContent = {
         date: '2024-04-27',
       },
       {
+        outlet: 'Portal Agro Summit',
+        headline:
+          'JC Meeting reune líderes do agro para discutir temas como agricultura regenerativa e tecnologias',
+        url: 'https://portal.agrosummit.com.br/jc-meeting-reune-lideres-do-agro-para-discutir-temas-como-agricultura-regenerativa-e-inovacao-tecnologica',
+        date: '2024-04-23',
+      },
+      {
         outlet: 'Revista Capital Econômico',
         headline:
           'Parceria entre Governo de São Paulo e JC Capital busca alavancar investimentos para o agronegócio',
