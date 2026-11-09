@@ -24,7 +24,7 @@ const { club } = Astro.props.content;
     </div>
   </div>
 
-  <ul class="club__principles" role="list" data-reveal>
+  <ul class="club__principles" role="list" data-reveal style={`--cols: ${club.principles.length}`}>
     {club.principles.map((principle) => (
       <li>
         <h3 class="label">{principle.title}</h3>
@@ -72,7 +72,7 @@ const { club } = Astro.props.content;
 
   @media (min-width: 48rem) {
     .club__principles {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
       gap: var(--grid-gap);
     }
   }

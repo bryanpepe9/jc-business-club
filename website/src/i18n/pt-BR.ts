@@ -18,7 +18,7 @@ export const ptBR: SiteContent = {
   meta: {
     title: 'JC Business Club — Conexões que geram negócios',
     description:
-      'Rede selecionada de empresários, investidores e lideranças. Um café da manhã presencial por mês, sem palestras: relacionamento, oportunidades e negócios.',
+      'Rede selecionada de empresários, investidores e lideranças. Um café da manhã por mês, presencial ou online: relacionamento, oportunidades e negócios.',
     ogImageAlt: 'JC Business Club — Conexões que geram negócios.',
   },
 
@@ -27,7 +27,7 @@ export const ptBR: SiteContent = {
     wordmark: 'JC BUSINESS CLUB',
     tagline: 'Conexões que geram negócios.', // deck, slide 1
     pillars: ['Relacionamento', 'Oportunidades', 'Negócios'], // deck, slide 1
-    closingLine: 'Conexões qualificadas. Oportunidades que se transformam em negócios.', // Jennifer, 2026-11-06 (replaces deck slide 10)
+    closingLine: 'Conexões estratégicas. Oportunidades que se transformam em negócios.', // Jennifer, 2026-11-06 (replaces deck slide 10)
   },
 
   a11y: {
@@ -60,7 +60,7 @@ export const ptBR: SiteContent = {
     lead: 'Uma rede privada e selecionada que reúne empresários, investidores e lideranças para desenvolver relacionamentos e oportunidades de negócios.',
     primaryCta: { label: 'Quero fazer parte', href: routes.apply },
     secondaryCta: { label: 'Conheça o clube', href: '#o-clube' },
-    facts: ['1 café da manhã por mês', 'Encontros presenciais', 'Sem palestras ou apresentações'],
+    facts: ['1 café da manhã por mês', 'Formato híbrido', 'Presencial ou online'],
     photo: {
       alt: 'Empresários sentados lado a lado à mesa, atentos à conversa durante um encontro de negócios.',
     },
@@ -71,8 +71,8 @@ export const ptBR: SiteContent = {
     title: 'Por que criamos o clube', // deck, slide 2
     // Deck slide 2, moved from first person to third person.
     body: [
-      'Depois de muitas rodadas de negócios e edições do JC Business Forum, Jennifer Chen sentiu a necessidade de criar encontros recorrentes para dar continuidade às oportunidades que surgem.',
-      'O clube conecta frentes complementares, amplia o cross-selling e acompanha os projetos do começo ao fim.',
+      'Depois de muitas rodadas de negócios e edições do JC Business Forum, Jennifer Chen sentiu a necessidade de criar encontros recorrentes para desenvolver as oportunidades que surgem.',
+      'O JC Business Club conecta frentes complementares e amplia as oportunidades de cross-selling.',
     ],
     principles: [
       {
@@ -83,10 +83,6 @@ export const ptBR: SiteContent = {
         title: 'Cross-selling',
         text: 'Mais oportunidades de negócio entre os próprios participantes.',
       },
-      {
-        title: 'Continuidade',
-        text: 'Projetos acompanhados do começo ao fim, encontro após encontro.',
-      },
     ],
   },
 
@@ -94,14 +90,14 @@ export const ptBR: SiteContent = {
     intro: { id: 'experiencia', index: '02', label: 'A experiência' },
     numeral: '1',
     title: 'café da manhã por mês', // deck, slide 3
-    body: 'Encontro presencial de aproximadamente quatro horas, em ambiente reservado e agradável, com tempo para boas conversas, troca de experiências e desenvolvimento das oportunidades.',
+    body: 'Um encontro por mês, em formato híbrido, com participação presencial ou online e tempo para boas conversas, troca de experiências e desenvolvimento das oportunidades.',
     details: [
-      { term: 'Formato', description: 'Presencial' },
-      { term: 'Duração', description: 'Aproximadamente quatro horas' },
-      { term: 'Ambiente', description: 'Reservado e agradável' },
+      { term: 'Frequência', description: 'Mensal' },
+      { term: 'Formato', description: 'Híbrido' },
+      { term: 'Participação', description: 'Presencial ou online' },
     ],
-    // deck, slide 3 — the two closing lines, set as a statement.
-    statement: ['Sem palestras ou apresentações.', 'Mais proximidade, continuidade e negócios.'],
+    // Optional closing lines; removed at the owner's request (2026-11-08).
+    statement: [],
     photo: {
       alt: 'Executivos conversam em pé, em um ambiente corporativo claro.',
     },
@@ -209,16 +205,16 @@ export const ptBR: SiteContent = {
     role: 'Fundadora do JC Business Club',
     // affiliation, bio and photo: pending owner approval.
     quote:
-      'Quando reunimos as pessoas certas à mesa, os projetos avançam com mais agilidade, facilidade e segurança para todos.', // deck, slide 2
+      'Quando reunimos as pessoas certas à mesa, os projetos avançam com mais facilidade, agilidade e segurança para todos.', // deck, slide 2
   },
 
   membership: {
     intro: { id: 'membro-fundador', index: '07', label: 'Membro fundador' },
-    title: 'Faça parte do primeiro grupo do JC Business Club.', // deck, slide 9
+    title: 'Faça parte do JC\u00a0Business Club.', // owner, 2026-11-08
     price: { label: 'Mensalidade', amount: 'R$ 990', period: '/mês', spoken: '990 reais por mês' },
     inclusions: [
       '1 café da manhã por mês',
-      'Encontro presencial de aproximadamente quatro horas',
+      'Formato híbrido: participação presencial ou online',
       'Relacionamento com empresários, investidores e lideranças',
       'Aproximações com potenciais parceiros e investidores',
     ],
@@ -228,7 +224,7 @@ export const ptBR: SiteContent = {
   },
 
   closing: {
-    statement: 'Conexões qualificadas. Oportunidades que se transformam em negócios.',
+    statement: 'Conexões estratégicas. Oportunidades que se transformam em negócios.',
     cta: { label: 'Solicitar participação', href: routes.apply },
   },
 
@@ -238,7 +234,7 @@ export const ptBR: SiteContent = {
     meta: {
       title: 'Solicitar participação',
       description:
-        'Solicite sua participação como membro fundador do JC Business Club: um café da manhã presencial por mês com empresários, investidores e lideranças.',
+        'Solicite sua participação como membro fundador do JC Business Club: um café da manhã por mês, presencial ou online, com empresários, investidores e lideranças.',
     },
     eyebrow: 'Membro fundador',
     title: 'Solicitar participação',

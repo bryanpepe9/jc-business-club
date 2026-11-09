@@ -9,7 +9,7 @@ test.describe('home page', () => {
       'href',
       '/solicitar-participacao',
     );
-    await expect(page.getByText('Sem palestras ou apresentações').first()).toBeVisible();
+    await expect(page.getByText('Formato híbrido').first()).toBeVisible();
   });
 
   test('shows the confirmed membership facts', async ({ page }) => {

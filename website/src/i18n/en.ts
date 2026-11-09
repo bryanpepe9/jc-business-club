@@ -16,7 +16,7 @@ export const en: SiteContent = {
   meta: {
     title: 'JC Business Club — Connections that drive business',
     description:
-      'A selected network of entrepreneurs, investors and leaders. One in-person breakfast a month, no lectures: relationships, opportunities and business.',
+      'A selected network of entrepreneurs, investors and leaders. One breakfast a month, in person or online: relationships, opportunities and business.',
     ogImageAlt: 'JC Business Club — Connections that drive business.',
   },
 
@@ -25,7 +25,7 @@ export const en: SiteContent = {
     wordmark: 'JC BUSINESS CLUB',
     tagline: 'Connections that drive business.', // approved by owner
     pillars: ['Relationships', 'Opportunities', 'Business'],
-    closingLine: 'Qualified connections. Opportunities that turn into business.',
+    closingLine: 'Strategic connections. Opportunities that turn into business.',
   },
 
   a11y: {
@@ -57,7 +57,7 @@ export const en: SiteContent = {
     lead: 'A private, selected network that brings together entrepreneurs, investors and leaders to build relationships and business opportunities.',
     primaryCta: { label: 'Apply to join', href: routes.apply },
     secondaryCta: { label: 'Discover the club', href: '#the-club' },
-    facts: ['1 breakfast a month', 'In-person meetings', 'No lectures or presentations'],
+    facts: ['1 breakfast a month', 'Hybrid format', 'In person or online'],
     photo: {
       alt: 'Business people seated side by side at a table, following the conversation at a business meeting.',
     },
@@ -67,8 +67,8 @@ export const en: SiteContent = {
     intro: { id: 'the-club', index: '01', label: 'The club' },
     title: 'Why we created the club',
     body: [
-      'After many business rounds and editions of the JC Business Forum, Jennifer Chen saw the need for recurring meetings that keep the opportunities that arise moving forward.',
-      'The club connects complementary business fronts, expands cross-selling and follows projects from start to finish.',
+      'After many business rounds and editions of the JC Business Forum, Jennifer Chen saw the need for recurring meetings to develop the opportunities that arise.',
+      'JC Business Club connects complementary business fronts and expands cross-selling opportunities.',
     ],
     principles: [
       {
@@ -79,10 +79,6 @@ export const en: SiteContent = {
         title: 'Cross-selling',
         text: 'More business opportunities among the participants themselves.',
       },
-      {
-        title: 'Continuity',
-        text: 'Projects followed from start to finish, meeting after meeting.',
-      },
     ],
   },
 
@@ -90,13 +86,13 @@ export const en: SiteContent = {
     intro: { id: 'experience', index: '02', label: 'The experience' },
     numeral: '1',
     title: 'breakfast a month',
-    body: 'An in-person meeting of about four hours, in a private and welcoming setting, with time for good conversation, exchanging experience and developing opportunities.',
+    body: 'One meeting a month, in a hybrid format, joining in person or online, with time for good conversation, exchanging experience and developing opportunities.',
     details: [
-      { term: 'Format', description: 'In person' },
-      { term: 'Duration', description: 'About four hours' },
-      { term: 'Setting', description: 'Private and welcoming' },
+      { term: 'Frequency', description: 'Monthly' },
+      { term: 'Format', description: 'Hybrid' },
+      { term: 'Attendance', description: 'In person or online' },
     ],
-    statement: ['No lectures or presentations.', 'Closer relationships, continuity and business.'],
+    statement: [],
     photo: {
       alt: 'Executives talking while standing in a bright corporate space.',
     },
@@ -207,12 +203,12 @@ export const en: SiteContent = {
     role: 'Founder of JC Business Club',
     // Translation of the deck quote — pending Jennifer's approval.
     quote:
-      'When we bring the right people to the table, projects move forward with greater speed, ease and confidence for everyone.',
+      'When we bring the right people to the table, projects move forward with greater ease, speed and confidence for everyone.',
   },
 
   membership: {
     intro: { id: 'founding-member', index: '07', label: 'Founding member' },
-    title: 'Join the first group of JC Business Club.',
+    title: 'Join JC Business Club.',
     price: {
       label: 'Monthly fee',
       // Billed in reais; the dollar figure is a guide for international readers.
@@ -223,7 +219,7 @@ export const en: SiteContent = {
     },
     inclusions: [
       '1 breakfast a month',
-      'An in-person meeting of about four hours',
+      'Hybrid format: join in person or online',
       'Relationships with entrepreneurs, investors and leaders',
       'Introductions to potential partners and investors',
     ],
@@ -232,7 +228,7 @@ export const en: SiteContent = {
   },
 
   closing: {
-    statement: 'Qualified connections. Opportunities that turn into business.',
+    statement: 'Strategic connections. Opportunities that turn into business.',
     cta: { label: 'Apply for membership', href: routes.apply },
   },
 
@@ -242,7 +238,7 @@ export const en: SiteContent = {
     meta: {
       title: 'Apply for membership',
       description:
-        'Apply to become a founding member of JC Business Club: one in-person breakfast a month with entrepreneurs, investors and leaders.',
+        'Apply to become a founding member of JC Business Club: one breakfast a month, in person or online, with entrepreneurs, investors and leaders.',
     },
     eyebrow: 'Founding member',
     title: 'Apply for membership',

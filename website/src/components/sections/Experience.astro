@@ -35,11 +35,13 @@ const { experience } = Astro.props.content;
         ))}
       </dl>
 
-      <p class="experience__statement t-statement" data-reveal>
-        {experience.statement.map((line) => (
-          <span>{line}</span>
-        ))}
-      </p>
+      {experience.statement.length > 0 && (
+        <p class="experience__statement t-statement" data-reveal>
+          {experience.statement.map((line) => (
+            <span>{line}</span>
+          ))}
+        </p>
+      )}
     </div>
 
     <Photo
