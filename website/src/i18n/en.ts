@@ -201,6 +201,17 @@ export const en: SiteContent = {
     intro: { id: 'jennifer-chen', index: '06', label: 'Founder' },
     name: 'Jennifer Chen',
     role: 'Founder of JC Business Club',
+    // Translation of Jennifer's own bio (pt-BR source on her personal site).
+    credentials: [
+      'Founder & CEO, JC Capital',
+      'Exclusive Representative of BPA in Brazil',
+      'Business Development, Brazil & Argentina, Horwath HTL',
+    ],
+    bio: [
+      'Jennifer Chen is an entrepreneur and business executive with broad experience in business development, strategic partnerships, premium markets, real estate and hospitality. Having studied and lived in the United States for more than a decade, she developed an international perspective on business, investment and luxury brands.',
+      'As Founder and CEO of JC Capital, Jennifer originates, structures and develops deals, connecting capital and building the strategic partnerships that make high-end real estate, hospitality and infrastructure projects possible. She is also the Exclusive Representative of Branded Property Advisory (BPA) in Brazil and leads Business Development for Brazil and Argentina at Horwath HTL, one of the world’s largest hotel and tourism consultancies.',
+    ],
+    photo: { alt: 'Portrait of Jennifer Chen in a white shirt.' },
     // Translation of the deck quote — pending Jennifer's approval.
     quote:
       'When we bring the right people to the table, projects move forward with greater ease, speed and confidence for everyone.',

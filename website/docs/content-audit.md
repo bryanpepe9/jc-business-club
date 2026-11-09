@@ -45,6 +45,7 @@ the owner before launch.
 | 05 gallery          | 5 event photos                                                                                                                                                                                  | Deck s.2, 3, 6, 7, 9               | **⚑ Confirm** publication rights and attendee consent       |
 | Hero, 02, 03 photos | Attendees seated (hero), standing conversation (02), row of executives (03)                                                                                                                     | Deck s.7, s.7/s.10, s.4            | Same consent question; crops remove third-party logos       |
 | 06                  | Jennifer Chen · Fundadora do JC Business Club                                                                                                                                                   | Brief ("founded by Jennifer Chen") |                                                             |
+| 06 titles + bio     | Fundadora & CEO da JC Capital · Representante Exclusiva da BPA no Brasil · Desenvolvimento de Negócios, Brasil & Argentina, na Horwath HTL; two bio paragraphs                                  | Jennifer's personal site, verbatim | Provided by owner 2026-11-08                                |
 | 06 quote            | "Quando reunimos as pessoas certas à mesa, os projetos avançam com mais facilidade, agilidade e segurança para todos."                                                                          | Deck s.2 · Owner edit              |                                                             |
 | 07 title            | Faça parte do JC Business Club.                                                                                                                                                                 | Owner, 2026-11-08                  | "primeiro grupo" removed                                    |
 | 07 price            | R$ 990/mês                                                                                                                                                                                      | Deck s.9 · Verbatim                | Confirmed by owner                                          |
@@ -88,7 +89,7 @@ fields for them, so they can be added once confirmed:
 - Member capacity or a numeric limit
 - Breakfast venue, dates or schedule
 - Commission or success-fee arrangements
-- Founder biography, JC Capital role, headshot
+- Founder headshot (renders once `src/assets/photos/jennifer-chen.jpg` is added); LinkedIn/Instagram links
 - Testimonials, member counts, statistics, partner logos, deal outcomes — none exist and none were invented
 
 ## English version (`src/i18n/en.ts`)

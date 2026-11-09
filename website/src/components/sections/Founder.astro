@@ -1,13 +1,16 @@
 ---
 /**
- * Founder section. Biography, affiliation and headshot are optional in the
- * content model and render only once the owner approves them; without them
- * the section is a typographic layout built around the founder's quote.
+ * Founder section: headshot, name, titles and biography, then her quote.
+ * The headshot is optional — it renders only when
+ * src/assets/photos/jennifer-chen.{jpg,jpeg,png,webp} exists, so the build
+ * never depends on the file being present.
  */
+import type { ImageMetadata } from 'astro';
 import type { SiteContent } from '@/i18n/types';
 import Section from '@/components/layout/Section.astro';
 import SectionHeader from '@/components/layout/SectionHeader.astro';
 import ArrowLink from '@/components/ui/ArrowLink.astro';
+import Photo from '@/components/ui/Photo.astro';
 
 interface Props {
   content: SiteContent;
@@ -15,17 +18,43 @@ interface Props {
 
 const { founder, a11y } = Astro.props.content;
 const affiliation = founder.affiliation;
+
+const headshots = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/photos/jennifer-chen.{jpg,jpeg,png,webp}',
+  { eager: true },
+);
+const headshot = Object.values(headshots)[0]?.default;
+const showPhoto = Boolean(headshot && founder.photo);
 ---
 
-<Section intro={founder.intro} theme="paper" labelledby="founder-title" class="section--centered">
+<Section intro={founder.intro} theme="paper" labelledby="founder-title">
   <SectionHeader intro={founder.intro} />
 
-  <div class="founder layout-grid">
-    <div class="founder__id" data-reveal>
+  <div class:list={['founder layout-grid', { 'founder--photo': showPhoto }]}>
+    {showPhoto && headshot && founder.photo && (
+      <div class="founder__photo" data-reveal>
+        <Photo
+          src={headshot}
+          alt={founder.photo.alt}
+          ratio="4 / 5"
+          position="center 30%"
+          sizes="(min-width: 80rem) 31rem, (min-width: 64rem) 38vw, 100vw"
+        />
+      </div>
+    )}
+
+    <div class="founder__text" data-reveal>
       <h2 id="founder-title" class="founder__name t-h2">
         {founder.name}
       </h2>
       <p class="founder__role label">{founder.role}</p>
+      {founder.credentials && founder.credentials.length > 0 && (
+        <ul class="founder__credentials" role="list">
+          {founder.credentials.map((credential) => (
+            <li>{credential}</li>
+          ))}
+        </ul>
+      )}
       {affiliation &&
         (typeof affiliation === 'string' ? (
           <p class="founder__affiliation">{affiliation}</p>
@@ -34,6 +63,26 @@ const affiliation = founder.affiliation;
             {affiliation.label}
           </ArrowLink>
         ))}
+
+      {founder.bio && founder.bio.length > 0 && (
+        <div class="founder__bio">
+          {founder.bio.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </div>
+      )}
+
+      {founder.links && founder.links.length > 0 && (
+        <ul class="founder__links" role="list">
+          {founder.links.map((link) => (
+            <li>
+              <ArrowLink href={link.href} direction="up-right" external newTabLabel={a11y.newTab}>
+                {link.label}
+              </ArrowLink>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
 
     <figure class="founder__quote" data-reveal>
@@ -42,21 +91,12 @@ const affiliation = founder.affiliation;
       </blockquote>
       <figcaption class="visually-hidden">{founder.name}</figcaption>
     </figure>
-
-    {founder.bio && founder.bio.length > 0 && (
-      <div class="founder__bio" data-reveal>
-        {founder.bio.map((paragraph) => (
-          <p>{paragraph}</p>
-        ))}
-      </div>
-    )}
   </div>
 </Section>
 
 <style>
-  /* Short section: centre the name and quote in the space the section fills. */
   .founder {
-    margin-block: auto;
+    row-gap: clamp(3rem, 2rem + 4vw, 6rem);
   }
 
   .founder__role {
@@ -64,17 +104,45 @@ const affiliation = founder.affiliation;
     color: var(--fg-muted);
   }
 
+  .founder__credentials {
+    display: grid;
+    gap: var(--space-1);
+    margin-top: var(--space-4);
+    font-size: var(--text-small);
+    color: var(--accent);
+  }
+
   .founder__affiliation {
     margin-top: var(--space-2);
     color: var(--fg-muted);
   }
 
-  .founder__id :global(.arrow-link) {
+  .founder__text :global(.arrow-link) {
     margin-top: var(--space-3);
   }
 
+  .founder__bio {
+    display: grid;
+    gap: var(--space-4);
+    max-width: var(--measure);
+    margin-top: var(--space-6);
+    color: var(--fg-muted);
+  }
+
+  .founder__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-6);
+    margin-top: var(--space-5);
+  }
+
+  .founder__quote {
+    padding-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+    border-top: var(--hairline) solid var(--line);
+  }
+
   .founder__quote p {
-    max-width: 24ch;
+    max-width: 30ch;
   }
 
   /* Quote marks live in CSS so formatting can never add stray spaces.
@@ -89,24 +157,22 @@ const affiliation = founder.affiliation;
     content: '”';
   }
 
-  .founder__bio {
-    display: grid;
-    gap: var(--space-4);
-    max-width: var(--measure);
-    color: var(--fg-muted);
-  }
-
   @media (min-width: 64rem) {
-    .founder__id {
-      grid-column: 1 / span 4;
+    .founder__photo {
+      grid-column: 1 / span 5;
+    }
+
+    .founder__text {
+      grid-column: 1 / span 8;
+      align-self: center;
+    }
+
+    .founder--photo .founder__text {
+      grid-column: 7 / span 6;
     }
 
     .founder__quote {
-      grid-column: 6 / span 7;
-    }
-
-    .founder__bio {
-      grid-column: 6 / span 6;
+      grid-column: 1 / -1;
     }
   }
 </style>

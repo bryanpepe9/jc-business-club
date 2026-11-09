@@ -156,12 +156,16 @@ export interface SiteContent {
     intro: SectionIntro;
     name: string;
     role: string;
-    /** Pending owner confirmation (e.g. "Founder & CEO, JC Capital"). */
+    /** Optional single affiliation line or link. */
     affiliation?: Link | string;
-    /** Pending: approved biography paragraphs. */
+    /** Current titles, shown as a dot-separated line under the name. */
+    credentials?: string[];
+    /** Approved biography paragraphs. */
     bio?: string[];
+    /** Profile links (LinkedIn, Instagram…), opened in a new tab. */
+    links?: Link[];
     quote: string;
-    /** Pending: approved headshot. */
+    /** Headshot copy. The image renders once src/assets/photos/jennifer-chen.jpg exists. */
     photo?: PhotoCopy;
   };
 

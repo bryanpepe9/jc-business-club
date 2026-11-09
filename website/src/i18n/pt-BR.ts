@@ -203,7 +203,17 @@ export const ptBR: SiteContent = {
     intro: { id: 'jennifer-chen', index: '06', label: 'Fundadora' },
     name: 'Jennifer Chen',
     role: 'Fundadora do JC Business Club',
-    // affiliation, bio and photo: pending owner approval.
+    // Titles and bio: Jennifer's own text from her personal site (owner-approved, 2026-11-08).
+    credentials: [
+      'Fundadora & CEO da JC Capital',
+      'Representante Exclusiva da BPA no Brasil',
+      'Desenvolvimento de Negócios, Brasil & Argentina, na Horwath HTL',
+    ],
+    bio: [
+      'Jennifer Chen é empreendedora e executiva de negócios com ampla experiência em desenvolvimento de negócios, parcerias estratégicas, mercados premium, real estate e hospitalidade. Tendo estudado e vivido nos Estados Unidos por mais de uma década, desenvolveu uma perspectiva internacional sobre negócios, investimento e marcas de luxo.',
+      'Como Fundadora e CEO da JC Capital, Jennifer origina, estrutura e desenvolve negócios, conectando capital e construindo as parcerias estratégicas que viabilizam projetos de alto padrão em real estate, hospitalidade e infraestrutura. É também a Representante Exclusiva da Branded Property Advisory (BPA) no Brasil e lidera o Desenvolvimento de Negócios para Brasil e Argentina na Horwath HTL — uma das maiores consultorias globais de hotelaria e turismo.',
+    ],
+    photo: { alt: 'Retrato de Jennifer Chen, de camisa branca.' },
     quote:
       'Quando reunimos as pessoas certas à mesa, os projetos avançam com mais facilidade, agilidade e segurança para todos.', // deck, slide 2
   },
