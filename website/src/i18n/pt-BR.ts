@@ -177,6 +177,13 @@ export const ptBR: SiteContent = {
         date: '2024-06-08',
       },
       {
+        outlet: 'Media Press',
+        headline:
+          'Especialistas debatem a importância de comunicar o potencial do agronegócio e da união para trazer investimentos para o setor',
+        url: 'https://www.mediapress.com.br/especialistas-debatem-a-importancia-de-comunicar-o-potencial-do-agronegocio-e-da-uniao-para-trazer-investimentos-para-o-setor/',
+        date: '2024-04-27',
+      },
+      {
         outlet: 'Revista Capital Econômico',
         headline:
           'Parceria entre Governo de São Paulo e JC Capital busca alavancar investimentos para o agronegócio',
