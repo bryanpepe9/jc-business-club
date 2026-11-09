@@ -62,7 +62,7 @@ test.describe('home page', () => {
     const press = page.locator('.press');
     await expect(press.getByRole('heading', { name: 'Reconhecimento na mídia' })).toBeVisible();
     const links = press.locator('a.press__item');
-    await expect(links).toHaveCount(5);
+    await expect(links).toHaveCount(3);
     for (const link of await links.all()) {
       await expect(link).toHaveAttribute('target', '_blank');
       await expect(link).toHaveAttribute('href', /^https:\/\//);

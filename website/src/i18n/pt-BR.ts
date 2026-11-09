@@ -164,13 +164,6 @@ export const ptBR: SiteContent = {
     // show as text until their links are confirmed.
     items: [
       {
-        outlet: 'Notícias Agrícolas',
-        headline:
-          'Conversa de Cerca Podcast #145 – Evento foca em conectar investidores a projetos do agronegócio e pode ser modelo para superar momentos de crise',
-        url: 'https://www.noticiasagricolas.com.br/videos/agronegocio/387845-conversa-de-cerca-podcast-145-evento-foca-em-conectar-investidores-a-projetos-do-agronegocio-e-pode-ser-modelo-para-superar-momentos-de-crise.html',
-        date: '2024-10-30',
-      },
-      {
         outlet: 'Gazeta da Semana',
         headline:
           'Crescimento nos mercados imobiliário e turístico no Brasil abrem oportunidades para investimentos',
@@ -182,12 +175,6 @@ export const ptBR: SiteContent = {
         headline: 'Road Shows: modelo atrai atenção de investidores no Brasil',
         url: 'https://brasilinovador.com.br/road-shows-modelo-esta-sendo-adaptado-para-o-mercado-brasileiro-e-atrai-atencao-de-investidores/',
         date: '2024-06-08',
-      },
-      {
-        outlet: 'AgFeed',
-        headline: 'Nascida no mundo da moda, JC Capital vai até a Arábia buscar investidores para o agro',
-        url: 'https://agfeed.com.br/financas/nascida-no-mundo-da-moda-jc-capital-vai-ate-a-arabia-buscar-investidores-para-o-agro',
-        date: '2024-02-05',
       },
       {
         outlet: 'Revista Capital Econômico',
