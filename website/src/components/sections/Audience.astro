@@ -93,6 +93,11 @@ const lastRole = audience.roles.length - 1;
     border-left: var(--hairline) solid var(--line);
   }
 
+  /* An odd last item spans both columns instead of sitting alone. */
+  .sectors__list li:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
   .sectors__note {
     margin-top: var(--space-5);
     max-width: 50ch;
@@ -108,11 +113,14 @@ const lastRole = audience.roles.length - 1;
 
   @media (min-width: 64rem) {
     .sectors__list {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       border-bottom: var(--hairline) solid var(--line);
     }
 
     .sectors__list li {
+      /* Five columns: scale the type with the viewport so the longest words
+         ("Infraestrutura", "Hospitalidade") keep clear of the dividers. */
+      font-size: clamp(1.25rem, 0.4rem + 1.5vw, 1.75rem);
       padding: var(--space-6) var(--space-5) var(--space-6) 0;
       border-bottom: 0;
     }
@@ -120,6 +128,10 @@ const lastRole = audience.roles.length - 1;
     .sectors__list li + li {
       padding-left: var(--space-5);
       border-left: var(--hairline) solid var(--line);
+    }
+
+    .sectors__list li:last-child:nth-child(odd) {
+      grid-column: auto;
     }
 
     .audience__main {

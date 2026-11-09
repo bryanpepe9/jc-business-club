@@ -109,7 +109,7 @@ export const ptBR: SiteContent = {
     body: 'Uma rede selecionada para reunir perfis complementares, interesses convergentes e capacidade de gerar oportunidades e viabilizar negócios.',
     sectors: {
       label: 'Setores de atuação inicial',
-      items: ['Imobiliário', 'Hospitalidade', 'Agronegócio', 'Investimentos'], // deck, slide 6
+      items: ['Imobiliário', 'Hospitalidade', 'Agronegócio', 'Investimentos', 'Infraestrutura'], // deck, slide 6 + owner 2026-11-08
       note: 'Áreas iniciais de experiência e atuação, abertas a negócios complementares.',
     },
     photo: {

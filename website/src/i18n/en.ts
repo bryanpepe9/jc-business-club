@@ -104,7 +104,7 @@ export const en: SiteContent = {
     body: 'A selected network that brings together complementary profiles, shared interests and the capacity to create opportunities and make business happen.',
     sectors: {
       label: 'Initial sectors',
-      items: ['Real estate', 'Hospitality', 'Agribusiness', 'Investments'],
+      items: ['Real estate', 'Hospitality', 'Agribusiness', 'Investments', 'Infrastructure'],
       note: 'Initial areas of experience and activity, open to complementary businesses.',
     },
     photo: {
